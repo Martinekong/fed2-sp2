@@ -6,14 +6,22 @@ export default class NoroffAPI {
     this.apiBase = apiBase;
   }
 
+  utils = {
+    setupHeaders: ({ auth = true, apiKey = true, json = true } = {}) => {
+      const headers = {};
+      if (json) headers['Content-Type'] = 'application/json';
+      if (auth) headers['Authorization'] = `Bearer ${getToken()}`;
+      if (apiKey) headers['X-Noroff-API-Key'] = `${API_KEY}`;
+      return headers;
+    },
+  };
+
   auth = {
     login: async ({ email, password }) => {
       try {
         const response = await fetch(`${this.apiBase}/auth/login`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
           body: JSON.stringify({ name, email, password }),
         });
 
@@ -36,9 +44,7 @@ export default class NoroffAPI {
       try {
         const response = await fetch(`${this.apiBase}/auth/register`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
           body: JSON.stringify({ name, email, password }),
         });
 
@@ -68,9 +74,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/listings?_active=true`,
           {
             method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
           },
         );
 
@@ -91,9 +95,7 @@ export default class NoroffAPI {
       try {
         const response = await fetch(`${this.apiBase}/auction/listings/${id}`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
         });
 
         if (!response.ok) {
@@ -113,11 +115,7 @@ export default class NoroffAPI {
       try {
         const response = await fetch(`${this.apiBase}/auction/listings`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
-            'X-Noroff-API-Key': API_KEY,
-          },
+          headers: this.utils.setupHeaders(),
           body: JSON.stringify(listing),
         });
 
@@ -138,11 +136,7 @@ export default class NoroffAPI {
       try {
         const response = await fetch(`${this.apiBase}/auction/listings/${id}`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
-            'X-Noroff-API-Key': API_KEY,
-          },
+          headers: this.utils.setupHeaders(),
           body: JSON.stringify(updates),
         });
 
@@ -163,21 +157,14 @@ export default class NoroffAPI {
       try {
         const response = await fetch(`${this.apiBase}/auction/listings/${id}`, {
           method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
-            'X-Noroff-API-Key': API_KEY,
-          },
+          headers: this.utils.setupHeaders(),
         });
 
         if (!response.ok) {
           console.log(response);
         }
 
-        // const { data } = await response.json();
-
         console.log('Listing deleted');
-        // return data;
       } catch (error) {
         console.log(error);
       }
@@ -189,11 +176,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/listings/${id}/bids`,
           {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
             body: JSON.stringify(amount),
           },
         );
@@ -217,9 +200,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/listings/search?q=${query}`,
           {
             method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
           },
         );
 
@@ -245,10 +226,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/profiles/${user}`,
           {
             method: 'GET',
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders({ json: false }),
           },
         );
 
@@ -272,11 +250,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/profiles/${user}`,
           {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders(),
             body: JSON.stringify(updates),
           },
         );
@@ -301,10 +275,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/profiles/${user}/bids`,
           {
             method: 'GET',
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders({ json: false }),
           },
         );
 
@@ -328,10 +299,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/profiles/${user}/listings`,
           {
             method: 'GET',
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders({ json: false }),
           },
         );
 
@@ -355,10 +323,7 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/profiles/${user}/wins`,
           {
             method: 'GET',
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-              'X-Noroff-API-Key': API_KEY,
-            },
+            headers: this.utils.setupHeaders({ json: false }),
           },
         );
 
