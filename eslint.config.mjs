@@ -10,7 +10,7 @@ export default defineConfig([
     extends: [js.configs.recommended],
   },
   {
-    files: ['eslint.config.js'],
+    files: ['eslint.config.js', 'tailwind.config.js'],
     languageOptions: {
       globals: globals.node,
     },
