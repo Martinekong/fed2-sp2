@@ -1,1 +1,1 @@
-# fed2-sp2
+# Bidly Auction House - Semester Project 2
