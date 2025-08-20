@@ -1,0 +1,24 @@
+{
+  "name": "fed2-sp2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npx eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Martinekong/fed2-sp2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Martinekong/fed2-sp2/issues"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0"
+  }
+}
