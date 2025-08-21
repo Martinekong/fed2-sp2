@@ -17,6 +17,7 @@
     <title>Bidly</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/listings/viewAll.js"></script>
   </head>
   <body>
     <header class="flex items-center justify-between p-8">
@@ -58,7 +59,9 @@
     </header>
 
     <main>
-      <section class="flex flex-col gap-12 px-8 mb-24 mt-14">
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 mt-14 lg:mx-auto lg:max-w-7xl lg:w-full"
+      >
         <div class="flex flex-col gap-4">
           <h1 class="text-6xl font-bold capitalize font-heading">
             ready. set. bid!
@@ -79,7 +82,10 @@
             <span class="material-symbols-outlined"> search </span>
           </button>
         </div>
-        <div id="listing-grid"></div>
+        <div
+          id="listing-grid"
+          class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4"
+        ></div>
       </section>
     </main>
 

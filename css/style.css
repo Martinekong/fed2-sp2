@@ -573,9 +573,9 @@ main {
   pointer-events: none;
   position: absolute;
   top: 0px;
-  right: 0px;
-  left: 0px;
   bottom: 0px;
+  left: 0px;
+  right: 0px;
   z-index: 10;
   display: flex;
   --tw-scale-x: 1;
@@ -639,12 +639,43 @@ main {
   font-weight: 700;
 }
 
+.card-btn {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  display: flex;
+  width: 80%;
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 36 63 / var(--tw-bg-opacity, 1));
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.card-btn:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
+}
+
 .absolute {
   position: absolute;
 }
 
 .relative {
   position: relative;
+}
+
+.right-4 {
+  right: 1rem;
 }
 
 .right-8 {
@@ -655,20 +686,8 @@ main {
   top: 2.75rem;
 }
 
-.top-4 {
-  top: 1rem;
-}
-
-.top-3 {
-  top: 0.75rem;
-}
-
 .top-2 {
   top: 0.5rem;
-}
-
-.right-4 {
-  right: 1rem;
 }
 
 .z-20 {
@@ -691,8 +710,16 @@ main {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
 .hidden {
   display: none;
+}
+
+.h-52 {
+  height: 13rem;
 }
 
 .w-60 {
@@ -713,6 +740,10 @@ main {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -739,12 +770,16 @@ main {
   gap: 0.5rem;
 }
 
-.gap-8 {
-  gap: 2rem;
-}
-
 .gap-4 {
   gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
 }
 
 .self-end {
@@ -753,6 +788,15 @@ main {
 
 .rounded-2xl {
   border-radius: 1rem;
+}
+
+.rounded-t-2xl {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .border-2 {
@@ -769,9 +813,19 @@ main {
   background-color: rgb(22 36 63 / var(--tw-bg-opacity, 1));
 }
 
+.bg-secondary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 250 244 / var(--tw-bg-opacity, 1));
+}
+
 .bg-tertiary {
   --tw-bg-opacity: 1;
   background-color: rgb(255 207 152 / var(--tw-bg-opacity, 1));
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-4 {
@@ -797,8 +851,16 @@ main {
   padding-bottom: 0.5rem;
 }
 
+.pb-10 {
+  padding-bottom: 2.5rem;
+}
+
 .pt-2 {
   padding-top: 0.5rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-center {
@@ -807,6 +869,11 @@ main {
 
 .font-heading {
   font-family: Playfair Display, serif;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-4xl {
@@ -862,6 +929,16 @@ main {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
 .after\:absolute::after {
   content: var(--tw-content);
   position: absolute;
@@ -903,6 +980,11 @@ main {
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-secondary-hover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 241 224 / var(--tw-bg-opacity, 1));
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -923,6 +1005,17 @@ main {
   --tw-ring-color: rgb(22 36 63 / var(--tw-ring-opacity, 1));
 }
 
+.group:hover .group-hover\:translate-x-3 {
+  --tw-translate-x: 0.75rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 768px) {
   .md\:block {
     display: block;
@@ -930,5 +1023,24 @@ main {
 
   .md\:hidden {
     display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lg\:w-full {
+    width: 100%;
+  }
+
+  .lg\:max-w-7xl {
+    max-width: 80rem;
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
