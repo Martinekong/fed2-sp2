@@ -50,6 +50,7 @@ export default class NoroffAPI {
         return data;
       } catch (error) {
         console.log(error.message);
+        // open overlay with error message
       }
     },
 

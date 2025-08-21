@@ -17,6 +17,7 @@
     <title>Login | Bidly</title>
     <link rel="stylesheet" href="./../../css/style.css" />
     <script type="module" src="./../../js/main.js"></script>
+    <script type="module" src="./../../js/auth/login.js"></script>
   </head>
   <body>
     <header class="p-8 flex items-center justify-between">
@@ -56,7 +57,48 @@
         </span>
       </div>
     </header>
-    <main></main>
+
+    <main>
+      <section class="flex flex-col gap-12 items-center mt-14 mb-24 px-8">
+        <h1 class="font-heading font-bold text-6xl capitalize">login</h1>
+        <form id="login-form" class="flex flex-col gap-8 items-center w-full">
+          <div class="flex flex-col gap-2 w-full max-w-80">
+            <label for="email" class="text-xl">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+              class="border-2 rounded-2xl border-primary px-4 py-2 w-full focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div class="flex flex-col gap-2 w-full max-w-80">
+            <label for="password" class="text-xl">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter your password"
+              required
+              class="border-2 rounded-2xl border-primary px-4 py-2 w-full focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-primary text-white p-4 rounded-2xl text-center capitalize hover:bg-primary-hover w-60 mt-6 shadow-lg"
+          >
+            login
+          </button>
+        </form>
+        <p>
+          Don't have an account yet?<a href="./../register/" class="font-bold">
+            Register!</a
+          >
+        </p>
+      </section>
+    </main>
+
     <footer class="bg-tertiary p-8 flex items-end justify-between">
       <a
         href="./../../index.html"
