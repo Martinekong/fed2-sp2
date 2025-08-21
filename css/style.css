@@ -599,6 +599,16 @@ body {
   }
 }
 
+.nav-link {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-transform: uppercase;
+}
+
+.nav-link-active {
+  font-weight: 700;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -647,8 +657,8 @@ body {
   justify-content: space-between;
 }
 
-.gap-4 {
-  gap: 1rem;
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .p-8 {
@@ -673,17 +683,8 @@ body {
   line-height: 1.75rem;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .font-bold {
   font-weight: 700;
-}
-
-.uppercase {
-  text-transform: uppercase;
 }
 
 .capitalize {

@@ -68,11 +68,6 @@ export default class NoroffAPI {
         console.log(error.message);
       }
     },
-
-    logout: () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    },
   };
 
   listings = {
@@ -291,3 +286,12 @@ export default class NoroffAPI {
     },
   };
 }
+
+// const api = new NoroffAPI();
+
+// const user = {
+//   email: 'bidly@stud.noroff.no',
+//   password: '12345678',
+// };
+
+// api.auth.login(user);

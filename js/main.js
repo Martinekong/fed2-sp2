@@ -1,13 +1,38 @@
-import { getToken } from './utils/storage.js';
+import NoroffAPI from './api.js';
+
+const api = new NoroffAPI();
 
 const navMenu = document.getElementById('nav-menu');
 const closeMenu = document.getElementById('close-menu');
 const openMenu = document.getElementById('open-menu');
-const loginLink = document.getElementById('login-link');
-const logoutLink = document.getElementById('logout-link');
-const loginBtn = document.getElementById('login-btn');
-const logoutBtn = document.getElementById('logout-btn');
+const authLink = document.getElementById('auth-link');
+const authBtn = document.getElementById('auth-btn');
 const credits = document.getElementById('credits');
+
+async function initHeader() {
+  const user = await api.profile.view();
+
+  if (user) {
+    authLink.textContent = 'logout';
+    authBtn.textContent = 'logout';
+    authBtn.setAttribute('aria-label', 'logout');
+    authLink.addEventListener('click', logoutUser);
+    authBtn.addEventListener('click', logoutUser);
+    credits.textContent = `Credits: ${user.credits}`;
+  } else {
+    authLink.textContent = 'login';
+    authBtn.textContent = 'login';
+    authBtn.setAttribute('aria-label', 'login');
+  }
+}
+
+initHeader();
+
+function logoutUser() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  credits.textContent = '';
+}
 
 openMenu.addEventListener('click', () => {
   navMenu.classList.remove('opacity-0', 'pointer-events-none');
@@ -22,24 +47,3 @@ closeMenu.addEventListener('click', () => {
 
   closeMenu.classList.add('hidden');
 });
-
-const user = getToken();
-
-if (user) {
-  loginLink.classList.add('hidden');
-  logoutBtn.classList.add('md:block');
-  credits.textContent = `Credits:`;
-  // Have to add the actual credits for the user after api setup
-} else {
-  logoutLink.classList.add('hidden');
-  loginBtn.classList.add('md:block');
-}
-
-function logoutUser() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  credits.textContent = '';
-}
-
-logoutBtn.addEventListener('click', logoutUser);
-logoutLink.addEventListener('click', logoutUser);

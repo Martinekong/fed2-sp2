@@ -14,7 +14,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <title>Document</title>
+    <title>Bidly</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script type="module" src="./js/main.js"></script>
   </head>
@@ -33,40 +33,18 @@
         close
       </span>
       <nav class="nav-menu" id="nav-menu">
-        <a href="./index.html" class="uppercase text-xl">listings</a>
-        <a href="./about/" class="uppercase text-xl">about</a>
-        <a href="./profile/" class="uppercase text-xl">profile</a>
-        <a
-          href="./auth/login/"
-          class="uppercase text-lg md:hidden"
-          id="login-link"
-          >login</a
-        >
-        <a
-          href="./auth/login/"
-          class="uppercase text-lg md:hidden"
-          id="logout-link"
-          >logout</a
-        >
+        <a href="./index.html" class="nav-link nav-link-active">listings</a>
+        <a href="./about/" class="nav-link">about</a>
+        <a href="./profile/" class="nav-link">profile</a>
+        <a href="./auth/login/" id="auth-link" class="nav-link md:hidden"></a>
       </nav>
-      <div class="flex items-center gap-4 pt-2">
+      <div class="flex items-center gap-2 pt-2">
         <p id="credits" class="text-lg"></p>
-        <a href="./auth/login/">
+        <a href="./auth/login">
           <span
-            class="material-symbols-outlined cursor-pointer hidden"
-            aria-label="log in"
-            id="login-btn"
+            class="material-symbols-outlined cursor-pointer hidden md:block"
+            id="auth-btn"
           >
-            login
-          </span>
-        </a>
-        <a href="./auth/login/">
-          <span
-            class="material-symbols-outlined cursor-pointer hidden"
-            aria-label="log out"
-            id="logout-btn"
-          >
-            logout
           </span>
         </a>
         <span

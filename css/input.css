@@ -17,4 +17,12 @@
            md:opacity-100 md:relative ease-out scale-100 
            md:pointer-events-auto md:bg-white items-center;
   }
+
+  .nav-link {
+    @apply uppercase text-xl;
+  }
+
+  .nav-link-active {
+    @apply font-bold;
+  }
 }
