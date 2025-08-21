@@ -767,6 +767,10 @@ main {
   gap: 3rem;
 }
 
+.self-end {
+  align-self: flex-end;
+}
+
 .rounded-2xl {
   border-radius: 1rem;
 }
@@ -855,6 +859,11 @@ main {
   line-height: 1.75rem;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -866,6 +875,15 @@ main {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-error {
+  --tw-text-opacity: 1;
+  color: rgb(182 86 87 / var(--tw-text-opacity, 1));
+}
+
+.opacity-80 {
+  opacity: 0.8;
 }
 
 .shadow-sm {
