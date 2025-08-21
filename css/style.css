@@ -595,6 +595,17 @@ body {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
     padding-top: 0.5rem;
+  }
+}
+
+.nav-menu.open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .nav-menu {
+    pointer-events: auto;
     opacity: 1;
   }
 }
@@ -607,14 +618,6 @@ body {
 
 .nav-link-active {
   font-weight: 700;
-}
-
-.pointer-events-none {
-  pointer-events: none;
-}
-
-.pointer-events-auto {
-  pointer-events: auto;
 }
 
 .absolute {
@@ -689,14 +692,6 @@ body {
 
 .capitalize {
   text-transform: capitalize;
-}
-
-.opacity-0 {
-  opacity: 0;
-}
-
-.opacity-100 {
-  opacity: 1;
 }
 
 .after\:absolute::after {

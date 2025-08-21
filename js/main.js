@@ -35,15 +35,11 @@ function logoutUser() {
 }
 
 openMenu.addEventListener('click', () => {
-  navMenu.classList.remove('opacity-0', 'pointer-events-none');
-  navMenu.classList.add('opacity-100', 'pointer-events-auto');
-
+  navMenu.classList.add('open');
   closeMenu.classList.remove('hidden');
 });
 
 closeMenu.addEventListener('click', () => {
-  navMenu.classList.add('opacity-0', 'pointer-events-none');
-  navMenu.classList.remove('opacity-100', 'pointer-events-auto');
-
+  navMenu.classList.remove('open');
   closeMenu.classList.add('hidden');
 });
