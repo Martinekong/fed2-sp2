@@ -14,6 +14,24 @@ export default class NoroffAPI {
       if (apiKey) headers['X-Noroff-API-Key'] = `${API_KEY}`;
       return headers;
     },
+
+    handleResponse: async (response) => {
+      let result;
+
+      try {
+        result = await response.json();
+      } catch {
+        throw new Error('Invalid JSON response');
+      }
+
+      if (!response.ok) {
+        const errorMessage = result.errors
+          ?.map((err) => err.message)
+          .join(', ');
+        throw new Error(errorMessage || result.status || 'Unknown error');
+      }
+      return result.data ?? result;
+    },
   };
 
   auth = {
@@ -22,21 +40,16 @@ export default class NoroffAPI {
         const response = await fetch(`${this.apiBase}/auth/login`, {
           method: 'POST',
           headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ email, password }),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Logged in user:`, data);
         saveToken(data.accessToken);
         saveUser(data.name);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -48,16 +61,11 @@ export default class NoroffAPI {
           body: JSON.stringify({ name, email, password }),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Registered user:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -78,16 +86,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`All listings:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -98,16 +101,11 @@ export default class NoroffAPI {
           headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Single listing:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -119,16 +117,11 @@ export default class NoroffAPI {
           body: JSON.stringify(listing),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`New listing:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -140,16 +133,11 @@ export default class NoroffAPI {
           body: JSON.stringify(updates),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Updated listing:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -160,13 +148,10 @@ export default class NoroffAPI {
           headers: this.utils.setupHeaders(),
         });
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
+        await this.utils.handleResponse(response);
         console.log('Listing deleted');
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -176,21 +161,16 @@ export default class NoroffAPI {
           `${this.apiBase}/auction/listings/${id}/bids`,
           {
             method: 'POST',
-            headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
-            body: JSON.stringify(amount),
+            headers: this.utils.setupHeaders(),
+            body: JSON.stringify({ amount }),
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Bid has been placed:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -204,16 +184,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Search results:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
   };
@@ -230,16 +205,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`User profile:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -255,16 +225,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Updated profile:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -279,16 +244,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Users bids:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -303,16 +263,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Users listings:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
@@ -327,16 +282,11 @@ export default class NoroffAPI {
           },
         );
 
-        if (!response.ok) {
-          console.log(response);
-        }
-
-        const { data } = await response.json();
-
+        const data = await this.utils.handleResponse(response);
         console.log(`Users wins:`, data);
         return data;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
   };
