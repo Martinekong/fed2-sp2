@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-primary font-body bg-white;
+  }
+}
+
+@layer components {
+  .nav-menu {
+    @apply absolute top-0 right-0 left-0 bottom-0 bg-tertiary 
+           flex flex-col gap-16 
+           md:flex-row md:gap-12 md:pt-2 pt-28 
+           md:relative md:pointer-events-auto md:bg-white items-center 
+           ease-out scale-100 
+           opacity-0 pointer-events-none transition-opacity duration-300;
+  }
+
+  .nav-menu.open {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  @screen md {
+    .nav-menu {
+      @apply opacity-100 pointer-events-auto;
+    }
+  }
+
+  .nav-link {
+    @apply uppercase text-xl md:hover:border-b-2 md:hover:border-primary transition-all duration-200 ease-in-out;
+  }
+
+  .nav-link-active {
+    @apply font-bold;
+  }
+}

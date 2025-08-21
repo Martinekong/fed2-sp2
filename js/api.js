@@ -68,11 +68,6 @@ export default class NoroffAPI {
         console.log(error.message);
       }
     },
-
-    logout: () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    },
   };
 
   listings = {
