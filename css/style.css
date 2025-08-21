@@ -614,6 +614,17 @@ body {
   font-size: 1.25rem;
   line-height: 1.75rem;
   text-transform: uppercase;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 768px) {
+  .nav-link:hover {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-color: rgb(22 36 63 / var(--tw-border-opacity, 1));
+  }
 }
 
 .nav-link-active {

@@ -29,7 +29,7 @@
   }
 
   .nav-link {
-    @apply uppercase text-xl;
+    @apply uppercase text-xl md:hover:border-b-2 md:hover:border-primary transition-all duration-200 ease-in-out;
   }
 
   .nav-link-active {
