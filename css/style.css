@@ -655,6 +655,22 @@ main {
   top: 2.75rem;
 }
 
+.top-4 {
+  top: 1rem;
+}
+
+.top-3 {
+  top: 0.75rem;
+}
+
+.top-2 {
+  top: 0.5rem;
+}
+
+.right-4 {
+  right: 1rem;
+}
+
 .z-20 {
   z-index: 20;
 }
@@ -691,6 +707,10 @@ main {
   max-width: 20rem;
 }
 
+.max-w-96 {
+  max-width: 24rem;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -721,6 +741,10 @@ main {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .self-end {

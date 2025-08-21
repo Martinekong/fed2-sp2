@@ -19,14 +19,14 @@
     <script type="module" src="./js/main.js"></script>
   </head>
   <body>
-    <header class="p-8 flex items-center justify-between">
+    <header class="flex items-center justify-between p-8">
       <a
         href="./index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
         >bidly</a
       >
       <span
-        class="material-symbols-outlined hidden md:hidden cursor-pointer absolute top-11 right-8 z-20"
+        class="absolute z-20 hidden cursor-pointer material-symbols-outlined md:hidden top-11 right-8"
         id="close-menu"
         aria-label="close navigation menu"
       >
@@ -42,13 +42,13 @@
         <p id="credits" class="text-lg"></p>
         <a href="./auth/login">
           <span
-            class="material-symbols-outlined cursor-pointer hidden md:block"
+            class="hidden cursor-pointer material-symbols-outlined md:block"
             id="auth-btn"
           >
           </span>
         </a>
         <span
-          class="material-symbols-outlined md:hidden cursor-pointer"
+          class="cursor-pointer material-symbols-outlined md:hidden"
           id="open-menu"
           aria-label="open navigation menu"
         >
@@ -56,8 +56,34 @@
         </span>
       </div>
     </header>
-    <main></main>
-    <footer class="bg-tertiary p-8 flex items-end justify-between">
+
+    <main>
+      <section class="flex flex-col gap-12 px-8 mb-24 mt-14">
+        <div class="flex flex-col gap-4">
+          <h1 class="text-6xl font-bold capitalize font-heading">
+            ready. set. bid!
+          </h1>
+          <p>
+            Welcome to Bidly — the smart way to explore, bid, and collect unique
+            items.
+          </p>
+        </div>
+        <div class="relative max-w-96">
+          <input
+            type="search"
+            name="search"
+            id="search"
+            class="w-full px-4 py-2 border-2 rounded-2xl border-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary"
+          />
+          <button class="absolute top-2 right-4">
+            <span class="material-symbols-outlined"> search </span>
+          </button>
+        </div>
+        <div id="listing-grid"></div>
+      </section>
+    </main>
+
+    <footer class="flex items-end justify-between p-8 bg-tertiary">
       <a
         href="./index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary"
