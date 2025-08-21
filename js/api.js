@@ -286,12 +286,3 @@ export default class NoroffAPI {
     },
   };
 }
-
-// const api = new NoroffAPI();
-
-// const user = {
-//   email: 'bidly@stud.noroff.no',
-//   password: '12345678',
-// };
-
-// api.auth.login(user);
