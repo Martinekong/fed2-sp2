@@ -43,3 +43,7 @@ closeMenu.addEventListener('click', () => {
   navMenu.classList.remove('open');
   closeMenu.classList.add('hidden');
 });
+
+const year = new Date().getFullYear();
+const copyrightEl = document.getElementById('copyright');
+copyrightEl.textContent = `© ${year} Martine Kongsrud`;
