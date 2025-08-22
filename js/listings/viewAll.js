@@ -15,7 +15,8 @@ async function renderListings() {
   const listings = await api.listings.viewAll();
 
   listings.forEach((listing) => {
-    assembleListingCard(listing);
+    const card = assembleListingCard(listing);
+    listingGrid.append(card);
   });
 }
 
@@ -29,10 +30,53 @@ function assembleListingCard(listing) {
   infoDiv.append(latestBid, endDate);
   const button = createCardBtn('bid on it');
   card.append(image, infoDiv, button);
-  listingGrid.append(card);
+  return card;
 }
 
 renderListings();
 
-// function for search field
-// make latest listings first? - add filter function?
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('search');
+const searchBtn = document.getElementById('search-btn');
+
+async function performSearch(query) {
+  if (!query) {
+    const all = await api.listings.viewAll();
+    listingGrid.innerHTML = '';
+    all.forEach((listing) => {
+      const card = assembleListingCard(listing);
+      listingGrid.append(card);
+    });
+    return;
+  }
+
+  const listings = await api.listings.search(query);
+  const activeListings = listings.filter(
+    (listing) => new Date(listing.endsAt) > new Date(),
+  );
+
+  listingGrid.innerHTML = '';
+
+  if (activeListings.length > 0) {
+    activeListings.forEach((listing) => {
+      const card = assembleListingCard(listing);
+      listingGrid.append(card);
+    });
+  } else {
+    const msg = document.createElement('p');
+    msg.textContent = 'No listings match your search.';
+    listingGrid.append(msg);
+  }
+}
+
+searchForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const query = searchInput.value.trim();
+  performSearch(query);
+});
+
+searchBtn.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const query = searchInput.value.trim();
+  performSearch(query);
+});
