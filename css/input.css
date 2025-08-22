@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply text-primary font-body bg-white min-h-screen flex flex-col;
+    @apply flex flex-col min-h-screen bg-white text-primary font-body;
   }
 
   main {
@@ -14,12 +14,7 @@
 
 @layer components {
   .nav-menu {
-    @apply absolute top-0 right-0 left-0 bottom-0 bg-tertiary 
-           flex flex-col gap-16 z-10
-           md:flex-row md:gap-12 md:pt-2 pt-28 
-           md:relative md:pointer-events-auto md:bg-white items-center 
-           ease-out scale-100 
-           opacity-0 pointer-events-none transition-opacity duration-300;
+    @apply absolute top-0 bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-16 transition-opacity duration-300 ease-out scale-100 opacity-0 pointer-events-none bg-tertiary md:flex-row md:gap-12 md:pt-2 pt-28 md:relative md:pointer-events-auto md:bg-white;
   }
 
   .nav-menu.open {
@@ -33,10 +28,14 @@
   }
 
   .nav-link {
-    @apply uppercase text-xl md:hover:border-b-2 md:hover:border-primary transition-all duration-200 ease-in-out;
+    @apply text-xl uppercase transition-all duration-200 ease-in-out md:hover:border-b-2 md:hover:border-primary;
   }
 
   .nav-link-active {
     @apply font-bold;
+  }
+
+  .card-btn {
+    @apply bg-primary text-white py-2 px-4 flex items-center gap-2 justify-center rounded-2xl w-[80%] absolute bottom-[-16px] left-1/2 -translate-x-1/2 hover:bg-primary-hover;
   }
 }
