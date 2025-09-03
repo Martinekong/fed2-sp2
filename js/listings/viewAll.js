@@ -1,4 +1,3 @@
-import {} from '../utils/cardComponents.js';
 import NoroffAPI from './../api.js';
 import {
   createCard,

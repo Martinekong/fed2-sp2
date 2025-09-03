@@ -4,7 +4,6 @@ export function createCard(href) {
   const card = document.createElement('a');
   card.href = href;
   card.classList.add(
-    'border',
     'relative',
     'rounded-2xl',
     'bg-secondary',
