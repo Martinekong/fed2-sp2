@@ -17,16 +17,17 @@
     <title>Profile | Bidly</title>
     <link rel="stylesheet" href="./../css/style.css" />
     <script type="module" src="./../js/main.js"></script>
+    <script type="module" src="./../js/profile/profile.js"></script>
   </head>
   <body>
-    <header class="p-8 flex items-center justify-between">
+    <header class="flex items-center justify-between p-8">
       <a
         href="./../index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
         >bidly</a
       >
       <span
-        class="material-symbols-outlined hidden md:hidden cursor-pointer absolute top-11 right-8 z-20"
+        class="absolute z-20 hidden cursor-pointer material-symbols-outlined md:hidden top-11 right-8"
         id="close-menu"
         aria-label="close navigation menu"
       >
@@ -46,13 +47,13 @@
         <p id="credits" class="text-lg"></p>
         <a href="./../auth/login">
           <span
-            class="material-symbols-outlined cursor-pointer hidden md:block"
+            class="hidden cursor-pointer material-symbols-outlined md:block"
             id="auth-btn"
           >
           </span>
         </a>
         <span
-          class="material-symbols-outlined md:hidden cursor-pointer"
+          class="cursor-pointer material-symbols-outlined md:hidden"
           id="open-menu"
           aria-label="open navigation menu"
         >
@@ -60,8 +61,71 @@
         </span>
       </div>
     </header>
-    <main></main>
-    <footer class="bg-tertiary p-8 flex items-end justify-between">
+
+    <main>
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 mt-14 lg:mx-auto lg:max-w-7xl lg:w-full"
+      >
+        <h1 class="text-6xl font-bold capitalize font-heading">profile</h1>
+        <div class="relative mb-8">
+          <img
+            src=""
+            alt=""
+            id="user-banner"
+            class="object-cover w-full h-40 rounded-2xl"
+          />
+          <img
+            src=""
+            alt=""
+            id="user-avatar"
+            class="absolute bottom-0 -translate-x-1/2 translate-y-1/4 w-36 h-36 left-1/2 rounded-2xl"
+          />
+        </div>
+        <div class="flex justify-between">
+          <div class="flex flex-col gap-8">
+            <p id="username" class="text-2xl"></p>
+            <div class="flex items-center gap-11">
+              <p>Credits:</p>
+              <p id="user-credits" class="text-2xl"></p>
+            </div>
+            <button
+              id="create-listing-btn"
+              class="flex justify-center gap-4 px-4 py-2 text-white bg-primary rounded-2xl hover:bg-primary-hover w-52 group"
+            >
+              Add new listings
+              <span
+                class="transition-transform duration-300 material-symbols-outlined group-hover:translate-x-3"
+                >arrow_forward</span
+              >
+            </button>
+          </div>
+          <button id="edit-profile-btn" class="flex gap-2">
+            Edit
+            <span class="material-symbols-outlined">border_color</span>
+          </button>
+        </div>
+      </section>
+
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 lg:mx-auto lg:max-w-7xl lg:w-full"
+      >
+        <h2 class="text-2xl">Active bids</h2>
+        <div id="active-bids-container">
+          <p>You have no active bids.</p>
+        </div>
+      </section>
+
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 lg:mx-auto lg:max-w-7xl lg:w-full"
+      >
+        <h2 class="text-2xl">My listings</h2>
+        <div class="my-listings-container">
+          <p>You have no active listings.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="flex items-end justify-between p-8 bg-tertiary">
       <a
         href="./index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary"
