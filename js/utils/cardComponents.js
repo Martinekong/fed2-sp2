@@ -59,6 +59,14 @@ export function createCardInfo(listing, name) {
     text.textContent = 'Expires in:';
     content.textContent = new Date(listing.endsAt).toLocaleDateString();
     createCountdown(listing.endsAt, content);
+  } else if (name === 'yourBid') {
+    text.textContent = 'Your bid:';
+    content.textContent = listing;
+    content.classList.add('font-bold');
+  } else if (name === 'highestBid') {
+    text.textContent = 'Highest bid:';
+    content.textContent = listing;
+    content.classList.add('font-bold');
   }
 
   container.append(text, content);

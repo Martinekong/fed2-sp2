@@ -93,10 +93,13 @@ export default class NoroffAPI {
 
     viewSingle: async (id) => {
       try {
-        const response = await fetch(`${this.apiBase}/auction/listings/${id}`, {
-          method: 'GET',
-          headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
-        });
+        const response = await fetch(
+          `${this.apiBase}/auction/listings/${id}?_seller=true&_bids=true`,
+          {
+            method: 'GET',
+            headers: this.utils.setupHeaders({ auth: false, apiKey: false }),
+          },
+        );
 
         const data = await this.utils.handleResponse(response);
         console.log(`Single listing:`, data);
@@ -234,7 +237,7 @@ export default class NoroffAPI {
       try {
         const user = getUser();
         const response = await fetch(
-          `${this.apiBase}/auction/profiles/${user}/bids`,
+          `${this.apiBase}/auction/profiles/${user}/bids?_listings=true`,
           {
             method: 'GET',
             headers: this.utils.setupHeaders({ json: false }),
