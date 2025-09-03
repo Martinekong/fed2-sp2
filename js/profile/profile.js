@@ -6,7 +6,7 @@ async function renderUser() {
   const user = await api.profile.view();
 
   if (user === undefined) {
-    console.log('user is not logged in');
+    window.location.href = './../auth/login/';
     return;
   }
 
@@ -25,8 +25,7 @@ async function renderUser() {
 
 renderUser();
 
-// Fix user not logged in
 // Add edit profile overlay
 // Add create listing overlay
-// Render active bida
+// Render active bids
 // Render my listings

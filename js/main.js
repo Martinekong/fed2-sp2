@@ -44,6 +44,36 @@ closeMenu.addEventListener('click', () => {
   closeMenu.classList.add('hidden');
 });
 
-const year = new Date().getFullYear();
-const copyrightEl = document.getElementById('copyright');
-copyrightEl.textContent = `© ${year} Martine Kongsrud`;
+function showFooterContent() {
+  const year = new Date().getFullYear();
+  const copyrightEl = document.getElementById('copyright');
+  copyrightEl.textContent = `© ${year} Martine Kongsrud`;
+}
+
+showFooterContent();
+
+async function navigationPathsToProfile() {
+  const profileNav = document.getElementById('profile-nav');
+
+  const user = await api.profile.view();
+
+  if (!user) {
+    profileNav.href = `${window.location.origin}/auth/login`;
+    return;
+  }
+
+  if (window.location.pathname.includes('profile')) {
+    profileNav.href = './';
+  } else if (window.location.pathname.includes('auth')) {
+    profileNav.href = './../../profile';
+  } else if (
+    window.location.pathname.includes('listing') ||
+    window.location.pathname.includes('about')
+  ) {
+    profileNav.href = './../profile';
+  } else {
+    profileNav.href = './profile';
+  }
+}
+
+navigationPathsToProfile();
