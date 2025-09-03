@@ -724,8 +724,16 @@ main {
   top: 2.75rem;
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
 .z-20 {
   z-index: 20;
+}
+
+.order-1 {
+  order: 1;
 }
 
 .mb-24 {
@@ -738,6 +746,10 @@ main {
 
 .mt-6 {
   margin-top: 1.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .flex {
@@ -756,6 +768,26 @@ main {
   height: 13rem;
 }
 
+.h-20 {
+  height: 5rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.max-h-96 {
+  max-height: 24rem;
+}
+
+.max-h-44 {
+  max-height: 11rem;
+}
+
+.max-h-11 {
+  max-height: 2.75rem;
+}
+
 .w-60 {
   width: 15rem;
 }
@@ -766,6 +798,26 @@ main {
 
 .w-52 {
   width: 13rem;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.w-36 {
+  width: 9rem;
+}
+
+.w-20 {
+  width: 5rem;
+}
+
+.w-28 {
+  width: 7rem;
 }
 
 .max-w-80 {
@@ -782,6 +834,10 @@ main {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -824,12 +880,32 @@ main {
   gap: 2rem;
 }
 
+.gap-10 {
+  gap: 2.5rem;
+}
+
 .self-end {
   align-self: flex-end;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .rounded-2xl {
   border-radius: 1rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 .rounded-t-2xl {
@@ -905,6 +981,10 @@ main {
   text-align: center;
 }
 
+.align-middle {
+  vertical-align: middle;
+}
+
 .font-heading {
   font-family: Playfair Display, serif;
 }
@@ -941,6 +1021,10 @@ main {
 
 .font-bold {
   font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .capitalize {
@@ -1064,12 +1148,40 @@ main {
 }
 
 @media (min-width: 768px) {
+  .md\:order-1 {
+    order: 1;
+  }
+
+  .md\:order-first {
+    order: -9999;
+  }
+
+  .md\:row-span-5 {
+    grid-row: span 5 / span 5;
+  }
+
+  .md\:row-span-6 {
+    grid-row: span 6 / span 6;
+  }
+
   .md\:block {
     display: block;
   }
 
   .md\:hidden {
     display: none;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:items-end {
+    align-items: flex-end;
+  }
+
+  .md\:justify-end {
+    justify-content: flex-end;
   }
 }
 

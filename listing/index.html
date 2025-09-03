@@ -17,16 +17,17 @@
     <title>Listing | Bidly</title>
     <link rel="stylesheet" href="./../css/style.css" />
     <script type="module" src="./../js/main.js"></script>
+    <script type="module" src="./../js/listings/viewSingle.js"></script>
   </head>
   <body>
-    <header class="p-8 flex items-center justify-between">
+    <header class="flex items-center justify-between p-8">
       <a
         href="./../index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
         >bidly</a
       >
       <span
-        class="material-symbols-outlined hidden md:hidden cursor-pointer absolute top-11 right-8 z-20"
+        class="absolute z-20 hidden cursor-pointer material-symbols-outlined md:hidden top-11 right-8"
         id="close-menu"
         aria-label="close navigation menu"
       >
@@ -46,13 +47,13 @@
         <p id="credits" class="text-lg"></p>
         <a href="./../auth/login">
           <span
-            class="material-symbols-outlined cursor-pointer hidden md:block"
+            class="hidden cursor-pointer material-symbols-outlined md:block"
             id="auth-btn"
           >
           </span>
         </a>
         <span
-          class="material-symbols-outlined md:hidden cursor-pointer"
+          class="cursor-pointer material-symbols-outlined md:hidden"
           id="open-menu"
           aria-label="open navigation menu"
         >
@@ -60,8 +61,60 @@
         </span>
       </div>
     </header>
-    <main></main>
-    <footer class="bg-tertiary p-8 flex items-end justify-between">
+
+    <main>
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 mt-14 lg:mx-auto lg:max-w-7xl lg:w-full"
+        id="listing-container"
+      >
+        <div class="flex gap-2">
+          <a href="./../index.html">Listings</a>
+          <p>&#47;</p>
+          <p id="current-listing" class="font-semibold"></p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <h1
+            id="listing-title"
+            class="text-6xl font-bold capitalize font-heading"
+          ></h1>
+          <div
+            id="listing-img-container"
+            class="md:order-first md:row-span-5"
+          ></div>
+          <p id="listing-description"></p>
+          <div class="flex items-center gap-4">
+            <p>Latest bid:</p>
+            <p id="latest-bid" class="text-2xl"></p>
+          </div>
+          <div class="flex items-center gap-4">
+            <p>Expires in:</p>
+            <p id="expires-in" class="text-2xl"></p>
+          </div>
+          <form class="relative self-end max-w-96" id="bid-form">
+            <input
+              type="number"
+              id="place-bid"
+              placeholder="Enter amount"
+              required
+              class="w-full px-4 py-2 border-2 rounded-2xl border-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary"
+            />
+            <button
+              type="submit"
+              class="absolute top-0 bottom-0 right-0 flex justify-center w-40 gap-4 px-4 py-2 text-white group bg-primary rounded-2xl hover:bg-primary-hover max-h-11"
+            >
+              Bid on it
+              <span
+                class="transition-transform duration-300 material-symbols-outlined group-hover:translate-x-3"
+                >arrow_forward</span
+              >
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="flex items-end justify-between p-8 bg-tertiary">
       <a
         href="./../index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary"
