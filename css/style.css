@@ -708,28 +708,20 @@ main {
   position: relative;
 }
 
-.right-4 {
-  right: 1rem;
+.right-0 {
+  right: 0px;
 }
 
 .right-8 {
   right: 2rem;
 }
 
-.top-11 {
-  top: 2.75rem;
-}
-
-.top-2 {
-  top: 0.5rem;
-}
-
 .top-0 {
   top: 0px;
 }
 
-.right-0 {
-  right: 0px;
+.top-11 {
+  top: 2.75rem;
 }
 
 .z-20 {
@@ -772,6 +764,10 @@ main {
   width: 100%;
 }
 
+.w-52 {
+  width: 13rem;
+}
+
 .max-w-80 {
   max-width: 20rem;
 }
@@ -798,6 +794,10 @@ main {
 
 .items-center {
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -837,10 +837,6 @@ main {
   border-top-right-radius: 1rem;
 }
 
-.border {
-  border-width: 1px;
-}
-
 .border-2 {
   border-width: 2px;
 }
@@ -876,10 +872,6 @@ main {
 
 .p-8 {
   padding: 2rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .px-4 {
@@ -1025,6 +1017,11 @@ main {
   content: var(--tw-content);
 }
 
+.hover\:translate-x-3:hover {
+  --tw-translate-x: 0.75rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:bg-primary-hover:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
@@ -1086,8 +1083,16 @@ main {
     width: 100%;
   }
 
+  .lg\:max-w-5xl {
+    max-width: 64rem;
+  }
+
   .lg\:max-w-7xl {
     max-width: 80rem;
+  }
+
+  .lg\:max-w-6xl {
+    max-width: 72rem;
   }
 
   .lg\:grid-cols-4 {

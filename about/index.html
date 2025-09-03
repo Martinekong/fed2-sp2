@@ -19,14 +19,14 @@
     <script type="module" src="./../js/main.js"></script>
   </head>
   <body>
-    <header class="p-8 flex items-center justify-between">
+    <header class="flex items-center justify-between p-8">
       <a
         href="./../index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
         >bidly</a
       >
       <span
-        class="material-symbols-outlined hidden md:hidden cursor-pointer absolute top-11 right-8 z-20"
+        class="absolute z-20 hidden cursor-pointer material-symbols-outlined md:hidden top-11 right-8"
         id="close-menu"
         aria-label="close navigation menu"
       >
@@ -46,13 +46,13 @@
         <p id="credits" class="text-lg"></p>
         <a href="./../auth/login">
           <span
-            class="material-symbols-outlined cursor-pointer hidden md:block"
+            class="hidden cursor-pointer material-symbols-outlined md:block"
             id="auth-btn"
           >
           </span>
         </a>
         <span
-          class="material-symbols-outlined md:hidden cursor-pointer"
+          class="cursor-pointer material-symbols-outlined md:hidden"
           id="open-menu"
           aria-label="open navigation menu"
         >
@@ -60,8 +60,60 @@
         </span>
       </div>
     </header>
-    <main></main>
-    <footer class="bg-tertiary p-8 flex items-end justify-between">
+
+    <main>
+      <section
+        class="flex flex-col gap-12 px-8 mb-24 mt-14 lg:mx-auto lg:max-w-7xl lg:w-full"
+      >
+        <div class="flex flex-col gap-8">
+          <h1 class="text-6xl font-bold capitalize font-heading">
+            about bidly
+          </h1>
+          <h2 class="text-2xl">
+            Welcome to Bidly – Where Bidding Meets Simplicity.
+          </h2>
+          <p>
+            Bidly is an innovative online auction platform built for anyone who
+            loves discovering unique items and the thrill of bidding. Whether
+            you’re searching for a vintage collectible, stylish furniture, or
+            something one-of-a-kind, Bidly gives you a smart and seamless way to
+            bid and win.
+          </p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h2 class="text-2xl">Why Bidly?</h2>
+          <p>
+            From everyday gems to rare finds, our listings are curated to
+            surprise and delight. Placing a bid is just a click away. Stay in
+            control and up-to-date with real-time bidding. Every listing has an
+            expiry, making the experience exciting and competitive. Bidly is
+            powered by Noroffs Auction House API, ensuring secure and
+            trustworthy bidding for all users.
+          </p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h2 class="text-2xl">The Mission</h2>
+          <p>
+            Bidly was created as a semester project at Noroff School of
+            Technology and Digital Media. The goal was to provide a functional,
+            responsive, and engaging auction experience, while showcasing the
+            power of frontend development with HTML, CSS, and JavaScript.
+          </p>
+        </div>
+        <a
+          href="./../index.html"
+          class="flex justify-center gap-4 px-4 py-2 text-white bg-primary rounded-2xl hover:bg-primary-hover w-52 group"
+        >
+          Start bidding
+          <span
+            class="transition-transform duration-300 material-symbols-outlined group-hover:translate-x-3"
+            >arrow_forward</span
+          >
+        </a>
+      </section>
+    </main>
+
+    <footer class="flex items-end justify-between p-8 bg-tertiary">
       <a
         href="./../index.html"
         class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary"
