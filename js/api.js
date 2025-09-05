@@ -77,7 +77,7 @@ export default class NoroffAPI {
     viewAll: async () => {
       try {
         const response = await fetch(
-          `${this.apiBase}/auction/listings?_active=true`,
+          `${this.apiBase}/auction/listings?_active=true&_bids=true`,
           {
             method: 'GET',
             headers: this.utils.setupHeaders({ auth: false, apiKey: false }),

@@ -1,4 +1,4 @@
-import { createCountdown } from './time.js';
+import { createCountdown, findHighestBid } from './math.js';
 
 export function createCard(href) {
   const card = document.createElement('a');
@@ -58,7 +58,8 @@ export function createCardInfo(listing, name) {
 
   if (name === 'latestBid') {
     text.textContent = 'Latest bid:';
-    content.textContent = listing._count?.bids ?? 0;
+    const latestBid = findHighestBid(listing);
+    content.textContent = latestBid;
     content.classList.add('font-bold');
   } else if (name === 'endDate') {
     text.textContent = 'Expires in:';
@@ -66,10 +67,6 @@ export function createCardInfo(listing, name) {
     createCountdown(listing.endsAt, content);
   } else if (name === 'yourBid') {
     text.textContent = 'Your bid:';
-    content.textContent = listing;
-    content.classList.add('font-bold');
-  } else if (name === 'highestBid') {
-    text.textContent = 'Highest bid:';
     content.textContent = listing;
     content.classList.add('font-bold');
   }

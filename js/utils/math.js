@@ -21,3 +21,14 @@ export function createCountdown(endDate, element) {
   updateCountdown();
   const interval = setInterval(updateCountdown, 1000);
 }
+
+export function findHighestBid(listing) {
+  const highestBid = listing.bids.reduce(
+    (max, bid) => {
+      return bid.amount > max.amount ? bid : max;
+    },
+    { amount: 0 },
+  );
+
+  return highestBid.amount;
+}

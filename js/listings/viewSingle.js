@@ -1,4 +1,4 @@
-import { createCountdown } from './../utils/time.js';
+import { createCountdown, findHighestBid } from './../utils/math.js';
 import NoroffAPI from './../api.js';
 import { getToken } from './../utils/storage.js';
 
@@ -63,11 +63,8 @@ function renderListing() {
   description.textContent = listing.description;
 
   const latestBid = document.getElementById('latest-bid');
-  if (listing._count.bids === 0) {
-    latestBid.textContent = 'No bids yet';
-  } else {
-    latestBid.textContent = listing._count.bids;
-  }
+  const highestBid = findHighestBid(listing);
+  latestBid.textContent = highestBid;
 
   const expiresCountdown = document.getElementById('expires-in');
   expiresCountdown.textContent = new Date(listing.endsAt).toLocaleDateString();
@@ -90,18 +87,7 @@ function isUserLoggedIn() {
     const loginBtn = document.createElement('a');
     loginBtn.href = './../auth/login';
     loginBtn.textContent = 'Login';
-    loginBtn.classList.add(
-      'bg-primary',
-      'text-white',
-      'p-4',
-      'rounded-2xl',
-      'text-center',
-      'capitalize',
-      'hover:bg-primary-hover',
-      'w-60',
-      'mt-6',
-      'shadow-lg',
-    );
+    loginBtn.classList.add('primary-btn');
     messageDiv.append(userMessage, loginBtn);
     listingContainer.append(messageDiv);
   }

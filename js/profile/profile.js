@@ -73,8 +73,11 @@ async function assembleBidCard(listing) {
   const image = createCardImage(listing.listing);
   const infoDiv = createCardInfoDiv(listing.listing);
   const yourBid = createCardInfo(listing.amount, 'yourBid');
-  const highestBidAmount = await findHighestBid(listing.listing.id);
-  const highestBid = createCardInfo(highestBidAmount, 'highestBid');
+
+  const product = await api.listings.viewSingle(listing.listing.id);
+  const highestBid = createCardInfo(product, 'latestBid');
+  console.log('WORKING HERE:', product);
+
   const endDate = createCardInfo(listing.listing, 'endDate');
   infoDiv.append(yourBid, highestBid, endDate);
   const button = createCardBtn('Update bid');
@@ -87,16 +90,7 @@ async function assembleListingCard(listing) {
   const card = createCard(href);
   const image = createCardImage(listing);
   const infoDiv = createCardInfoDiv(listing);
-
-  let highestBid;
-
-  if (listing.bids > 0) {
-    const highestBidAmount = await findHighestBid(listing.bids);
-    highestBid = createCardInfo(highestBidAmount, 'highestBid');
-  } else {
-    highestBid = createCardInfo('No bids yet', 'highestBid');
-  }
-
+  const highestBid = createCardInfo(listing, 'latestBid');
   const endDate = createCardInfo(listing, 'endDate');
   infoDiv.append(highestBid, endDate);
   const button = createCardBtn('Edit Listing');
@@ -109,18 +103,6 @@ async function assembleListingCard(listing) {
   return card;
 }
 
-async function findHighestBid(listing) {
-  const product = await api.listings.viewSingle(listing);
-  const bids = product.bids;
-  const highestBid = bids.reduce(
-    (max, bid) => {
-      return bid.amount > max.amount ? bid : max;
-    },
-    { amount: 0 },
-  );
-  return highestBid.amount;
-}
-
 showUserBids();
 showUserListings();
 
@@ -128,5 +110,4 @@ showUserListings();
 // Add create listing overlay
 // Add edit listing overlay
 // Add skeleton loader to banner and avatar/page
-// Move findHigestBid function so it can be used for the cards on home and singleListing page ??
 // Render wins ?
