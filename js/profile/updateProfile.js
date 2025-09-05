@@ -45,7 +45,7 @@ async function showEditProfileOverlay() {
   const saveBtn = document.createElement('button');
   saveBtn.type = 'submit';
   saveBtn.textContent = 'Save changes';
-  saveBtn.classList.add('primary-btn');
+  saveBtn.classList.add('primary-btn', 'w-full');
 
   const form = createOverlayForm([
     bioInput,
@@ -81,3 +81,6 @@ async function showEditProfileOverlay() {
 }
 
 editProfileBtn.addEventListener('click', showEditProfileOverlay);
+
+// TODO:
+// Needs refactoring

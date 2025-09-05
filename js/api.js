@@ -119,10 +119,16 @@ export default class NoroffAPI {
         });
 
         const data = await this.utils.handleResponse(response);
-        console.log(`New listing:`, data);
+        const button = addOkButton();
+        displayOverlay(
+          'Your listing has been posted successfully!',
+          button,
+          true,
+        );
         return data;
       } catch (error) {
-        console.log(error.message);
+        const button = addOkButton();
+        displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },
 
@@ -298,3 +304,6 @@ export default class NoroffAPI {
     },
   };
 }
+
+// Todo:
+// Make sure all functions have proper error handling

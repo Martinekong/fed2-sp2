@@ -16,6 +16,7 @@ export function displayOverlay(message, content, shouldReload = false) {
     'absolute',
     'top-4',
     'right-4',
+    'cursor-pointer',
   );
   closeBtn.textContent = 'close';
   closeBtn.setAttribute('aria-label', 'close overlay');
@@ -23,6 +24,7 @@ export function displayOverlay(message, content, shouldReload = false) {
   function closeOverlay() {
     overlayBg.remove();
     overlay.remove();
+    document.body.classList.remove('overflow-hidden');
     if (shouldReload) window.location.reload();
   }
 
@@ -31,6 +33,8 @@ export function displayOverlay(message, content, shouldReload = false) {
 
   overlay.append(overlayHeading, content, closeBtn);
   document.body.append(overlayBg, overlay);
+
+  document.body.classList.add('overflow-hidden');
 }
 
 export function createOverlayForm(inputDivs) {
@@ -43,7 +47,13 @@ export function createOverlayForm(inputDivs) {
 
 export function createInputDiv(
   name,
-  { labelText = null, type = 'text', value = '', placeholder = '' } = {},
+  {
+    labelText = null,
+    type = 'text',
+    value = '',
+    placeholder = '',
+    textarea = false,
+  } = {},
 ) {
   const div = document.createElement('div');
   div.classList.add('input-div');
@@ -52,15 +62,22 @@ export function createInputDiv(
   label.htmlFor = name;
   label.textContent = labelText ?? name.charAt(0).toUpperCase() + name.slice(1);
 
-  const input = document.createElement('input');
-  input.classList.add('input');
-  input.id = name;
-  input.name = name;
-  input.type = type;
-  input.value = value ?? '';
-  if (placeholder) input.placeholder = placeholder;
+  let field;
+  if (textarea) {
+    field = document.createElement('textarea');
+    field.rows = 3;
+  } else {
+    field = document.createElement('input');
+    field.type = type;
+  }
 
-  div.append(label, input);
+  field.classList.add('input', 'resize-none');
+  field.id = name;
+  field.name = name;
+  field.value = value ?? '';
+  if (placeholder) field.placeholder = placeholder;
+
+  div.append(label, field);
   return div;
 }
 
@@ -76,3 +93,5 @@ export function addOkButton() {
 
   return button;
 }
+
+// Add a no refresh on the addOkButton?

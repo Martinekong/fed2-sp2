@@ -76,7 +76,6 @@ async function assembleBidCard(listing) {
 
   const product = await api.listings.viewSingle(listing.listing.id);
   const highestBid = createCardInfo(product, 'latestBid');
-  console.log('WORKING HERE:', product);
 
   const endDate = createCardInfo(listing.listing, 'endDate');
   infoDiv.append(yourBid, highestBid, endDate);
@@ -107,7 +106,6 @@ showUserBids();
 showUserListings();
 
 // TODO:
-// Add create listing overlay
 // Add edit listing overlay
 // Add skeleton loader to banner and avatar/page
 // Render wins ?
