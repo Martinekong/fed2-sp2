@@ -22,8 +22,13 @@ export function createCardImage(listing) {
     img.alt = listing.media[0].alt || listing.title;
 
     img.onerror = () => {
-      img.src = './assets/images/placeholder.jpg';
-      img.alt = 'Placeholder image';
+      if (window.location.pathname.includes('profile')) {
+        img.src = './../assets/images/placeholder.jpg';
+        img.alt = 'Placeholder image';
+      } else {
+        img.src = './assets/images/placeholder.jpg';
+        img.alt = 'Placeholder image';
+      }
     };
     return img;
   } else {

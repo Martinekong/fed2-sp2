@@ -43,14 +43,29 @@ async function showUserBids() {
   activeBidsContainer.innerHTML = '';
 
   for (const bid of bids) {
-    if (!bid.listing) continue;
-
-    const card = await assembleListingCard(bid);
+    const card = await assembleBidCard(bid);
     activeBidsContainer.append(card);
   }
 }
 
-async function assembleListingCard(listing) {
+async function showUserListings() {
+  const myListingsContainer = document.getElementById('my-listings-container');
+  const listings = await api.profile.listings();
+
+  if (listings.length === 0) {
+    return;
+  }
+
+  myListingsContainer.innerHTML = '';
+
+  for (const listing of listings) {
+    console.log('this is a single user listing:', listing);
+    const card = await assembleListingCard(listing);
+    myListingsContainer.append(card);
+  }
+}
+
+async function assembleBidCard(listing) {
   const href = `./../listing/index.html?id=${listing.listing.id}`;
   const card = createCard(href);
   const image = createCardImage(listing.listing);
@@ -65,6 +80,33 @@ async function assembleListingCard(listing) {
   return card;
 }
 
+async function assembleListingCard(listing) {
+  const href = `./../listing/index.html?id=${listing.id}`;
+  const card = createCard(href);
+  const image = createCardImage(listing);
+  const infoDiv = createCardInfoDiv(listing);
+
+  let highestBid;
+
+  if (listing.bids > 0) {
+    const highestBidAmount = await findHighestBid(listing.bids);
+    highestBid = createCardInfo(highestBidAmount, 'highestBid');
+  } else {
+    highestBid = createCardInfo('No bids yet', 'highestBid');
+  }
+
+  const endDate = createCardInfo(listing, 'endDate');
+  infoDiv.append(highestBid, endDate);
+  const button = createCardBtn('Edit Listing');
+
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+  });
+
+  card.append(image, infoDiv, button);
+  return card;
+}
+
 async function findHighestBid(listing) {
   const product = await api.listings.viewSingle(listing);
   const bids = product.bids;
@@ -74,14 +116,14 @@ async function findHighestBid(listing) {
     },
     { amount: 0 },
   );
-  console.log('this is the highest bid:', highestBid.amount);
   return highestBid.amount;
 }
-// Move this function so it can be used for the cards on home and singleListing page
+// Move this function so it can be used for the cards on home and singleListing page ??
 
 showUserBids();
+showUserListings();
 
 // Add edit profile overlay
 // Add create listing overlay
-// Render active bids
-// Render my listings
+
+// Render wins ?

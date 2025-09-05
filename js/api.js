@@ -256,7 +256,7 @@ export default class NoroffAPI {
       try {
         const user = getUser();
         const response = await fetch(
-          `${this.apiBase}/auction/profiles/${user}/listings`,
+          `${this.apiBase}/auction/profiles/${user}/listings?_bids=true`,
           {
             method: 'GET',
             headers: this.utils.setupHeaders({ json: false }),
