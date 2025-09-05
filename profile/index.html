@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="./../css/style.css" />
     <script type="module" src="./../js/main.js"></script>
     <script type="module" src="./../js/profile/profile.js"></script>
+    <script type="module" src="./../js/profile/updateProfile.js"></script>
   </head>
   <body>
     <header class="flex items-center justify-between p-8">
@@ -78,12 +79,13 @@
             src=""
             alt=""
             id="user-avatar"
-            class="absolute bottom-0 -translate-x-1/2 translate-y-1/4 w-36 h-36 left-1/2 rounded-2xl"
+            class="absolute bottom-0 object-cover -translate-x-1/2 translate-y-1/4 w-36 h-36 left-1/2 rounded-2xl"
           />
         </div>
         <div class="flex justify-between">
           <div class="flex flex-col gap-8">
             <p id="username" class="text-2xl"></p>
+            <p id="bio"></p>
             <div class="flex items-center gap-11">
               <p>Credits:</p>
               <p id="user-credits" class="text-2xl"></p>
@@ -99,7 +101,7 @@
               >
             </button>
           </div>
-          <button id="edit-profile-btn" class="flex gap-2">
+          <button id="edit-profile-btn" class="flex gap-2 p-2">
             Edit
             <span class="material-symbols-outlined">border_color</span>
           </button>

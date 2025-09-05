@@ -1,5 +1,6 @@
 import { BASE_URL, API_KEY } from './utils/constants.js';
 import { saveToken, getToken, saveUser, getUser } from './utils/storage.js';
+import { displayOverlay, addOkButton } from './utils/overlay.js';
 
 export default class NoroffAPI {
   constructor(apiBase = `${BASE_URL}`) {
@@ -226,10 +227,16 @@ export default class NoroffAPI {
         );
 
         const data = await this.utils.handleResponse(response);
-        console.log(`Updated profile:`, data);
+        const button = addOkButton();
+        displayOverlay(
+          'Your profile has been successfully updated!',
+          button,
+          true,
+        );
         return data;
       } catch (error) {
-        console.log(error.message);
+        const button = addOkButton();
+        displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },
 

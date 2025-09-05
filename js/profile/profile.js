@@ -20,6 +20,7 @@ async function renderUser() {
   const userBanner = document.getElementById('user-banner');
   const userAvatar = document.getElementById('user-avatar');
   const username = document.getElementById('username');
+  const bio = document.getElementById('bio');
   const userCredits = document.getElementById('user-credits');
 
   userBanner.src = user.banner.url;
@@ -27,6 +28,7 @@ async function renderUser() {
   userAvatar.src = user.avatar.url;
   userAvatar.alt = user.avatar.alt;
   username.textContent = user.name;
+  bio.textContent = user.bio;
   userCredits.textContent = user.credits;
 }
 
@@ -118,12 +120,13 @@ async function findHighestBid(listing) {
   );
   return highestBid.amount;
 }
-// Move this function so it can be used for the cards on home and singleListing page ??
 
 showUserBids();
 showUserListings();
 
-// Add edit profile overlay
+// TODO:
 // Add create listing overlay
-
+// Add edit listing overlay
+// Add skeleton loader to banner and avatar/page
+// Move findHigestBid function so it can be used for the cards on home and singleListing page ??
 // Render wins ?

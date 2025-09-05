@@ -35,7 +35,31 @@
     @apply font-bold;
   }
 
+  .primary-btn {
+    @apply p-4 mt-6 text-center text-white capitalize shadow-lg bg-primary rounded-2xl hover:bg-primary-hover w-60;
+  }
+
   .card-btn {
     @apply bg-primary text-white py-2 px-4 flex items-center gap-2 justify-center rounded-2xl w-[80%] absolute bottom-[-16px] left-1/2 -translate-x-1/2 hover:bg-primary-hover;
+  }
+
+  .overlay-bg {
+    @apply fixed inset-0 z-40 w-screen h-screen bg-black/50;
+  }
+
+  .overlay {
+    @apply fixed z-50 flex flex-col gap-8 p-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl top-1/2 left-1/2;
+  }
+
+  .overlay button {
+    @apply self-center;
+  }
+
+  .input-div {
+    @apply flex flex-col w-full gap-2 max-w-80;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 border-2 rounded-2xl border-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary min-w-[300px];
   }
 }
