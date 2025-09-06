@@ -19,6 +19,7 @@ module.exports = {
         },
         tertiary: '#FFCF98',
         error: '#B65657',
+        success: '#457F4E',
       },
     },
   },

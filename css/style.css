@@ -892,10 +892,6 @@ main {
   margin-top: 1rem;
 }
 
-.mt-6 {
-  margin-top: 1.5rem;
-}
-
 .flex {
   display: flex;
 }
@@ -1190,6 +1186,11 @@ main {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-success {
+  --tw-text-opacity: 1;
+  color: rgb(69 127 78 / var(--tw-text-opacity, 1));
 }
 
 .opacity-80 {

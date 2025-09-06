@@ -1,3 +1,4 @@
+import { showSuccessMessage } from './../utils/validation.js';
 import NoroffAPI from './../api.js';
 
 const registerForm = document.getElementById('register-form');
@@ -12,8 +13,12 @@ async function onLoginSubmit(event) {
   const user = await api.auth.register(formFields);
 
   if (user) {
-    // show some success overlay and a little timeout?
-    window.location.href = './../../auth/login';
+    const successContainer = document.getElementById('success-container');
+    showSuccessMessage(successContainer, 'Register success. Redirecting...');
+
+    setTimeout(() => {
+      window.location.href = './../../auth/login';
+    }, 2000);
   }
 }
 

@@ -48,13 +48,12 @@ export default class NoroffAPI {
         });
 
         const data = await this.utils.handleResponse(response);
-        console.log(`Logged in user:`, data);
         saveToken(data.accessToken);
         saveUser(data.name);
         return data;
       } catch (error) {
-        console.log(error.message);
-        // open overlay with error message
+        const errorContainer = document.getElementById('error-container');
+        showErrorMessage(errorContainer, `${error.message}.`);
       }
     },
 
@@ -67,11 +66,10 @@ export default class NoroffAPI {
         });
 
         const data = await this.utils.handleResponse(response);
-        console.log(`Registered user:`, data);
         return data;
       } catch (error) {
-        console.log(error.message);
-        // open overlay with error message
+        const errorContainer = document.getElementById('error-container');
+        showErrorMessage(errorContainer, `${error.message}.`);
       }
     },
   };
