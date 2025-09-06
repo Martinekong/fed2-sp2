@@ -17,8 +17,14 @@ function renderListing() {
   const imgContainer = document.getElementById('listing-img-container');
   const mainImg = document.createElement('img');
   mainImg.classList.add('rounded-xl', 'h-96', 'w-full', 'object-cover');
-  mainImg.src = listing.media[0].url;
-  mainImg.alt = listing.media[0].alt;
+
+  if (listing.media[0]) {
+    mainImg.src = listing.media[0].url;
+    mainImg.alt = listing.media[0].alt;
+  } else {
+    mainImg.src = './../assets/images/placeholder.jpg';
+    mainImg.alt = 'Placeholder image';
+  }
   imgContainer.append(mainImg);
 
   mainImg.onerror = () => {

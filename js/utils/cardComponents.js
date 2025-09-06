@@ -18,6 +18,7 @@ export function createCardImage(listing) {
   if (listing.media && listing.media.length > 0) {
     const img = document.createElement('img');
     img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
+
     img.src = listing.media[0].url;
     img.alt = listing.media[0].alt || listing.title;
 
@@ -34,7 +35,8 @@ export function createCardImage(listing) {
   } else {
     const img = document.createElement('img');
     img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
-    img.src = './assets/images/placeholder.jpg';
+    img.src = './../assets/images/placeholder.jpg';
+    // need different paths here?
     img.alt = 'Placeholder image';
     return img;
   }

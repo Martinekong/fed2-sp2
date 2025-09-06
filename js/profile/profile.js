@@ -108,6 +108,5 @@ showUserBids();
 showUserListings();
 
 // TODO:
-// Add edit listing overlay
 // Add skeleton loader to banner and avatar/page
 // Render wins ?
