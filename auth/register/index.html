@@ -76,7 +76,7 @@
               class="input"
             />
           </div>
-          <div class="input-div">
+          <div class="relative input-div">
             <label for="email" class="text-xl">Email</label>
             <input
               type="email"
@@ -87,8 +87,10 @@
               pattern="^[^@\s]+@stud\.noroff\.no$"
               class="input"
             />
-            <p class="self-end text-sm opacity-80 text-error">
-              Must be a <code>@stud.noroff.no</code> address.
+            <p
+              class="absolute bottom-[-24px] right-0 self-end text-sm opacity-80 text-error"
+            >
+              Must be @stud.noroff.no address.
             </p>
           </div>
           <div class="input-div">

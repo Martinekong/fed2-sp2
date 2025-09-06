@@ -868,6 +868,26 @@ main {
   top: 1rem;
 }
 
+.top-2 {
+  top: 0.5rem;
+}
+
+.top-1 {
+  top: 0.25rem;
+}
+
+.bottom-\[-8px\] {
+  bottom: -8px;
+}
+
+.bottom-\[-16px\] {
+  bottom: -16px;
+}
+
+.bottom-\[-24px\] {
+  bottom: -24px;
+}
+
 .z-20 {
   z-index: 20;
 }
