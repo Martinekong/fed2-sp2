@@ -1,6 +1,6 @@
 import { BASE_URL, API_KEY } from './utils/constants.js';
 import { saveToken, getToken, saveUser, getUser } from './utils/storage.js';
-import { displayOverlay, addOkButton } from './utils/overlay.js';
+import { displayOverlay, createButton } from './utils/overlay.js';
 
 export default class NoroffAPI {
   constructor(apiBase = `${BASE_URL}`) {
@@ -17,6 +17,8 @@ export default class NoroffAPI {
     },
 
     handleResponse: async (response) => {
+      if (response.status === 204) return null;
+
       let result;
 
       try {
@@ -119,7 +121,7 @@ export default class NoroffAPI {
         });
 
         const data = await this.utils.handleResponse(response);
-        const button = addOkButton();
+        const button = createButton(true);
         displayOverlay(
           'Your listing has been posted successfully!',
           button,
@@ -127,7 +129,7 @@ export default class NoroffAPI {
         );
         return data;
       } catch (error) {
-        const button = addOkButton();
+        const button = createButton();
         displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },
@@ -141,10 +143,16 @@ export default class NoroffAPI {
         });
 
         const data = await this.utils.handleResponse(response);
-        console.log(`Updated listing:`, data);
+        const button = createButton(true);
+        displayOverlay(
+          'Your listing has been successfully updated!',
+          button,
+          true,
+        );
         return data;
       } catch (error) {
-        console.log(error.message);
+        const button = createButton();
+        displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },
 
@@ -156,9 +164,15 @@ export default class NoroffAPI {
         });
 
         await this.utils.handleResponse(response);
-        console.log('Listing deleted');
+        const button = createButton(true);
+        displayOverlay(
+          'Your listing has been successfully deleted!',
+          button,
+          true,
+        );
       } catch (error) {
-        console.log(error.message);
+        const button = createButton();
+        displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },
 
@@ -233,7 +247,7 @@ export default class NoroffAPI {
         );
 
         const data = await this.utils.handleResponse(response);
-        const button = addOkButton();
+        const button = createButton(true);
         displayOverlay(
           'Your profile has been successfully updated!',
           button,
@@ -241,7 +255,7 @@ export default class NoroffAPI {
         );
         return data;
       } catch (error) {
-        const button = addOkButton();
+        const button = createButton();
         displayOverlay(`Something went wrong: ${error.message} `, button);
       }
     },

@@ -43,6 +43,10 @@
     @apply flex items-center justify-center w-full gap-4 px-4 py-2 text-white bg-primary rounded-2xl hover:bg-primary-hover;
   }
 
+  .tertiary-btn {
+    @apply p-4 capitalize border-2 rounded-2xl border-error text-error hover:bg-error hover:text-white;
+  }
+
   .card-btn {
     @apply bg-primary text-white py-2 px-4 flex items-center gap-2 justify-center rounded-2xl w-[80%] absolute bottom-[-16px] left-1/2 -translate-x-1/2 hover:bg-primary-hover;
   }
@@ -67,3 +71,5 @@
     @apply w-full px-4 py-2 border-2 rounded-2xl border-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary min-w-[300px];
   }
 }
+
+/* TODO: smoother transition on buttons */

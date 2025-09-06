@@ -3,6 +3,7 @@ import {
   displayOverlay,
   createOverlayForm,
   createInputDiv,
+  createSubmitButton,
 } from './../utils/overlay.js';
 
 const api = new NoroffAPI();
@@ -42,10 +43,7 @@ async function showEditProfileOverlay() {
     placeholder: 'Describe your banner',
   });
 
-  const saveBtn = document.createElement('button');
-  saveBtn.type = 'submit';
-  saveBtn.textContent = 'Save changes';
-  saveBtn.classList.add('primary-btn', 'w-full');
+  const submitBtn = createSubmitButton('save changes');
 
   const form = createOverlayForm([
     bioInput,
@@ -53,7 +51,7 @@ async function showEditProfileOverlay() {
     avatarAltInput,
     bannerUrlInput,
     bannerAltInput,
-    saveBtn,
+    submitBtn,
   ]);
 
   form.addEventListener('submit', async (event) => {

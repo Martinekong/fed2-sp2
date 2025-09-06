@@ -716,6 +716,24 @@ main {
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
 }
 
+.tertiary-btn {
+  border-radius: 1rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(182 86 87 / var(--tw-border-opacity, 1));
+  padding: 1rem;
+  text-transform: capitalize;
+  --tw-text-opacity: 1;
+  color: rgb(182 86 87 / var(--tw-text-opacity, 1));
+}
+
+.tertiary-btn:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(182 86 87 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
 .card-btn {
   position: absolute;
   bottom: -16px;
@@ -1189,6 +1207,8 @@ main {
 .duration-300 {
   transition-duration: 300ms;
 }
+
+/* TODO: smoother transition on buttons */
 
 .after\:absolute::after {
   content: var(--tw-content);

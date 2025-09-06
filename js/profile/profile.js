@@ -5,6 +5,7 @@ import {
   createCardInfo,
   createCardBtn,
 } from './../utils/cardComponents.js';
+import { showEditListingOverlay } from './../listings/edit.js';
 import NoroffAPI from './../api.js';
 
 const api = new NoroffAPI();
@@ -96,6 +97,7 @@ async function assembleListingCard(listing) {
 
   button.addEventListener('click', (event) => {
     event.preventDefault();
+    showEditListingOverlay(listing.id);
   });
 
   card.append(image, infoDiv, button);

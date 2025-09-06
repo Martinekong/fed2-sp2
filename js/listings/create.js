@@ -1,9 +1,12 @@
 import {
+  createAddImageBtn,
   createInputDiv,
   createOverlayForm,
+  createSubmitButton,
   displayOverlay,
 } from './../utils/overlay.js';
 import NoroffAPI from './../api.js';
+import { setRestrictionsOnDateSelection } from '../utils/math.js';
 
 const api = new NoroffAPI();
 const createListingBtn = document.getElementById('create-listing-btn');
@@ -38,16 +41,7 @@ async function showCreateListingOverlay() {
   mediaContainer.classList.add('flex', 'flex-col', 'gap-2');
   mediaContainer.append(mediaUrl, mediaAlt);
 
-  const addImageBtn = document.createElement('button');
-  addImageBtn.type = 'button';
-  addImageBtn.textContent = 'Add another image';
-  addImageBtn.classList.add('secondary-btn');
-
-  const addImageIcon = document.createElement('span');
-  addImageIcon.classList.add('material-symbols-outlined');
-  addImageIcon.textContent = 'arrow_forward';
-
-  addImageBtn.append(addImageIcon);
+  const addImageBtn = createAddImageBtn();
 
   addImageBtn.addEventListener('click', () => {
     const newUrl = createInputDiv('mediaUrl', {
@@ -69,25 +63,14 @@ async function showCreateListingOverlay() {
 
   const endsAtInput = endsAt.querySelector('input');
   endsAtInput.required = true;
-
-  const input = endsAt.querySelector('input');
-  const now = new Date();
-  now.setSeconds(0, 0);
-  const oneYearLater = new Date(now);
-  oneYearLater.setFullYear(now.getFullYear() + 1);
-  const formatDateTime = (date) => date.toISOString().slice(0, 16);
-  input.min = formatDateTime(now);
-  input.max = formatDateTime(oneYearLater);
+  setRestrictionsOnDateSelection(endsAtInput);
 
   [titleInput, endsAtInput].forEach((el) => {
     el.addEventListener('invalid', () => el.classList.add('border-error'));
     el.addEventListener('input', () => el.classList.remove('border-error'));
   });
 
-  const addListingBtn = document.createElement('button');
-  addListingBtn.type = 'submit';
-  addListingBtn.textContent = 'Add listing';
-  addListingBtn.classList.add('primary-btn', 'w-full');
+  const submitBtn = createSubmitButton('add listing');
 
   const form = createOverlayForm([
     title,
@@ -95,7 +78,7 @@ async function showCreateListingOverlay() {
     mediaContainer,
     addImageBtn,
     endsAt,
-    addListingBtn,
+    submitBtn,
   ]);
 
   form.addEventListener('submit', async (event) => {

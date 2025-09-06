@@ -81,17 +81,61 @@ export function createInputDiv(
   return div;
 }
 
-export function addOkButton() {
+export function createAddImageBtn() {
+  const addImageBtn = document.createElement('button');
+  addImageBtn.type = 'button';
+  addImageBtn.textContent = 'Add another image';
+  addImageBtn.classList.add('secondary-btn');
+
+  const addImageIcon = document.createElement('span');
+  addImageIcon.classList.add('material-symbols-outlined');
+  addImageIcon.textContent = 'arrow_forward';
+
+  addImageBtn.append(addImageIcon);
+
+  return addImageBtn;
+}
+
+export function createSubmitButton(content) {
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.textContent = content;
+  submitBtn.classList.add('primary-btn', 'w-full');
+  return submitBtn;
+}
+
+export function createButton(shouldReload = false) {
   const button = document.createElement('button');
-  button.classList.add('primary-btn');
+  button.type = 'button';
+  button.classList.add('primary-btn', 'w-full');
   button.textContent = 'OK';
   button.setAttribute('aria-label', 'close overlay');
 
   button.addEventListener('click', () => {
-    window.location.reload();
+    const overlay = button.closest('.overlay');
+    const bg = overlay?.previousElementSibling;
+    overlay?.remove();
+    if (bg && bg.classList.contains('overlay-bg')) bg.remove();
+
+    document.body.classList.remove('overflow-hidden');
+
+    if (shouldReload) window.location.reload();
   });
 
   return button;
 }
 
-// Add a no refresh on the addOkButton?
+export function createDeleteButton(content) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = content;
+  button.classList.add('tertiary-btn', 'w-full');
+  return button;
+}
+
+export function removeStackedOverlays() {
+  document
+    .querySelectorAll('.overlay, .overlay-bg')
+    .forEach((el) => el.remove());
+  document.body.classList.remove('overflow-hidden');
+}

@@ -32,3 +32,19 @@ export function findHighestBid(listing) {
 
   return highestBid.amount;
 }
+
+export function toLocalDatetimeValue(isoString) {
+  const d = new Date(isoString);
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 16);
+}
+
+export function setRestrictionsOnDateSelection(input) {
+  const now = new Date();
+  now.setSeconds(0, 0);
+  const oneYearLater = new Date(now);
+  oneYearLater.setFullYear(now.getFullYear() + 1);
+  const formatDateTime = (date) => date.toISOString().slice(0, 16);
+  input.min = formatDateTime(now);
+  input.max = formatDateTime(oneYearLater);
+}
