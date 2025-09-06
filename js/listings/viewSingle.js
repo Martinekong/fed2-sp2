@@ -75,6 +75,28 @@ function renderListing() {
   const expiresCountdown = document.getElementById('expires-in');
   expiresCountdown.textContent = new Date(listing.endsAt).toLocaleDateString();
   createCountdown(listing.endsAt, expiresCountdown);
+
+  const seller = document.getElementById('seller');
+  const sellerInfo = `${listing.seller.name} | ${listing.seller.email}`;
+  seller.append(sellerInfo);
+
+  const bidHistoryContainer = document.getElementById('bid-history-container');
+
+  if (listing.bids.length === 0) {
+    const message = document.createElement('p');
+    message.textContent = 'No bid history available.';
+    bidHistoryContainer.append(message);
+  } else {
+    const bids = [...listing.bids].sort(
+      (a, b) => new Date(a.created) - new Date(b.created),
+    );
+
+    bids.forEach((bid) => {
+      const bidInfo = document.createElement('p');
+      bidInfo.textContent = `${bid.bidder.name} | Amount: ${bid.amount}`;
+      bidHistoryContainer.append(bidInfo);
+    });
+  }
 }
 
 function isUserLoggedIn() {
