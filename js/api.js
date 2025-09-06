@@ -1,6 +1,7 @@
 import { BASE_URL, API_KEY } from './utils/constants.js';
 import { saveToken, getToken, saveUser, getUser } from './utils/storage.js';
 import { displayOverlay, createButton } from './utils/overlay.js';
+import { showErrorMessage } from './utils/validation.js';
 
 export default class NoroffAPI {
   constructor(apiBase = `${BASE_URL}`) {
@@ -188,10 +189,12 @@ export default class NoroffAPI {
         );
 
         const data = await this.utils.handleResponse(response);
-        console.log(`Bid has been placed:`, data);
+        const button = createButton(true);
+        displayOverlay('Your bid has been successfully placed!', button, true);
         return data;
       } catch (error) {
-        console.log(error.message);
+        const errorContainer = document.getElementById('error-container');
+        showErrorMessage(errorContainer, `${error.message}.`);
       }
     },
 
