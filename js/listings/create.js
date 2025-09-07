@@ -1,3 +1,4 @@
+import NoroffAPI from './../api.js';
 import {
   createAddImageBtn,
   createInputDiv,
@@ -5,71 +6,141 @@ import {
   createSubmitButton,
   displayOverlay,
 } from './../utils/overlay.js';
-import NoroffAPI from './../api.js';
+import { createButton } from './../utils/overlay.js';
 import { setRestrictionsOnDateSelection } from '../utils/math.js';
 
 const api = new NoroffAPI();
-const createListingBtn = document.getElementById('create-listing-btn');
 
-async function showCreateListingOverlay() {
+function buildTitleSection() {
   const title = createInputDiv('title', {
     labelText: 'Product title',
     placeholder: 'Enter product title',
   });
 
-  const titleInput = title.querySelector('input');
-  titleInput.required = true;
+  const input = title.querySelector('input');
+  input.required = true;
 
+  input.addEventListener('invalid', () => input.classList.add('border-error'));
+  input.addEventListener('input', () => input.classList.remove('border-error'));
+
+  return title;
+}
+
+function buildDescriptionSection() {
   const description = createInputDiv('description', {
     labelText: 'Product description',
     placeholder: 'Describe your product',
     textarea: true,
   });
 
-  const mediaUrl = createInputDiv('mediaUrl', {
+  return description;
+}
+
+function buildMediaSection() {
+  const imageUrl = createInputDiv('imageUrl', {
     labelText: 'Image URL',
     type: 'url',
     placeholder: 'Enter valid image URL',
   });
-
-  const mediaAlt = createInputDiv('mediaAlt', {
+  const imageAlt = createInputDiv('imageAlt', {
     labelText: 'Image Alt text',
     placeholder: 'Describe the image',
   });
 
-  const mediaContainer = document.createElement('div');
-  mediaContainer.classList.add('flex', 'flex-col', 'gap-2');
-  mediaContainer.append(mediaUrl, mediaAlt);
+  const container = document.createElement('div');
+  container.classList.add('flex', 'flex-col', 'gap-2');
+  container.append(imageUrl, imageAlt);
 
-  const addImageBtn = createAddImageBtn();
-
-  addImageBtn.addEventListener('click', () => {
-    const newUrl = createInputDiv('mediaUrl', {
+  const addBtn = createAddImageBtn();
+  addBtn.addEventListener('click', () => {
+    const newUrl = createInputDiv('imageUrl', {
       labelText: 'Image URL',
       type: 'url',
       placeholder: 'Enter valid image URL',
     });
-    const newAlt = createInputDiv('mediaAlt', {
+    const newAlt = createInputDiv('imageAlt', {
       labelText: 'Image Alt text',
       placeholder: 'Describe the image',
     });
-    mediaContainer.append(newUrl, newAlt);
+    container.append(newUrl, newAlt);
   });
 
+  return { container, addBtn };
+}
+
+function buildEndsAtSection() {
   const endsAt = createInputDiv('endsAt', {
     labelText: 'Expiration date',
     type: 'datetime-local',
   });
 
-  const endsAtInput = endsAt.querySelector('input');
-  endsAtInput.required = true;
-  setRestrictionsOnDateSelection(endsAtInput);
+  const input = endsAt.querySelector('input');
+  input.required = true;
+  setRestrictionsOnDateSelection(input);
 
-  [titleInput, endsAtInput].forEach((el) => {
-    el.addEventListener('invalid', () => el.classList.add('border-error'));
-    el.addEventListener('input', () => el.classList.remove('border-error'));
-  });
+  input.addEventListener('invalid', () => input.classList.add('border-error'));
+  input.addEventListener('input', () => input.classList.remove('border-error'));
 
+  return endsAt;
+}
+
+function getDataFromForm(form) {
+  const formData = new FormData(form);
+
+  const title = formData.get('title')?.trim();
+  const description = formData.get('description')?.trim() || '';
+
+  const endsAtLocal = formData.get('endsAt');
+  const endsAt = endsAtLocal ? new Date(endsAtLocal).toISOString() : null;
+
+  const urls = formData.getAll('imageUrl').map((v) => v.trim());
+  const alts = formData.getAll('imageAlt').map((v) => v.trim());
+  const media = urls
+    .map((url, i) => ({ url, alt: alts[i] || '' }))
+    .filter((m) => m.url.length > 0);
+
+  return { title, description, media, endsAt };
+}
+
+async function handleCreateSubmit(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'adding...';
+
+    const { title, description, media, endsAt } = getDataFromForm(form);
+
+    if (!title || !endsAt) {
+      form.reportValidity?.();
+      return;
+    }
+
+    await api.listings.create({ title, description, media, endsAt });
+
+    const button = createButton(true);
+    displayOverlay('Your listing has been posted successfully!', button, true);
+
+    form.closest('.overlay')?.remove();
+    document.querySelector('.overlay-bg')?.remove();
+  } catch (error) {
+    const button = createButton();
+    displayOverlay(`Something went wrong: ${error.message} `, button);
+    console.error(error.message);
+  } finally {
+    submitBtn.disabled = false;
+  }
+}
+
+export function showCreateListingOverlay() {
+  const title = buildTitleSection();
+  const description = buildDescriptionSection();
+  const { container: mediaContainer, addBtn: addImageBtn } =
+    buildMediaSection();
+  const endsAt = buildEndsAtSection();
   const submitBtn = createSubmitButton('add listing');
 
   const form = createOverlayForm([
@@ -81,38 +152,7 @@ async function showCreateListingOverlay() {
     submitBtn,
   ]);
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(form);
-
-    const title = formData.get('title')?.trim();
-    const description = formData.get('description')?.trim() || '';
-    const endsAtLocal = formData.get('endsAt');
-    const endsAt = endsAtLocal ? new Date(endsAtLocal).toISOString() : null;
-
-    const urls = formData.getAll('mediaUrl').map((v) => v.trim());
-    const alts = formData.getAll('mediaAlt').map((v) => v.trim());
-    const media = urls.map((url, i) => ({ url, alt: alts[i] || '' }));
-
-    const newListing = {
-      title,
-      description,
-      media: media.filter((m) => m.url.length > 0),
-      endsAt,
-    };
-
-    await api.listings.create(newListing);
-    form.closest('.overlay')?.remove();
-    document.querySelector('.overlay-bg')?.remove();
-  });
+  form.addEventListener('submit', handleCreateSubmit);
 
   displayOverlay('Add new listing', form);
 }
-
-createListingBtn.addEventListener('click', () => {
-  showCreateListingOverlay();
-});
-
-// Todo:
-// This needs refactoring

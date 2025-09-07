@@ -4,14 +4,13 @@ import {
   createOverlayForm,
   createInputDiv,
   createSubmitButton,
+  createButton,
+  removeStackedOverlays,
 } from './../utils/overlay.js';
 
 const api = new NoroffAPI();
-const editProfileBtn = document.getElementById('edit-profile-btn');
 
-async function showEditProfileOverlay() {
-  const user = await api.profile.view();
-
+function buildProfileForm(user) {
   const bioInput = createInputDiv('bio', {
     value: user.bio || '',
     placeholder: 'Tell people about yourself',
@@ -54,31 +53,59 @@ async function showEditProfileOverlay() {
     submitBtn,
   ]);
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(form);
-    const updates = {
-      bio: formData.get('bio'),
-      avatar: {
-        url: formData.get('avatarUrl'),
-        alt: formData.get('avatarAlt'),
-      },
-      banner: {
-        url: formData.get('bannerUrl'),
-        alt: formData.get('bannerAlt'),
-      },
-    };
-
-    await api.profile.update(updates);
-    form.closest('.overlay')?.remove();
-    document.querySelector('.overlay-bg')?.remove();
-  });
-
-  displayOverlay('Edit profile', form);
+  return form;
 }
 
-editProfileBtn.addEventListener('click', showEditProfileOverlay);
+function getUpdates(form) {
+  const formData = new FormData(form);
+  return {
+    bio: (formData.get('bio') || '').trim(),
+    avatar: {
+      url: (formData.get('avatarUrl') || '').trim(),
+      alt: (formData.get('avatarAlt') || '').trim(),
+    },
+    banner: {
+      url: (formData.get('bannerUrl') || '').trim(),
+      alt: (formData.get('bannerAlt') || '').trim(),
+    },
+  };
+}
 
-// TODO:
-// Needs refactoring
+function onProfileSubmit(form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'updating...';
+      const updates = getUpdates(form);
+      await api.profile.update(updates);
+
+      removeStackedOverlays();
+      const button = createButton(true);
+      displayOverlay('Your profile has been updated!', button, true);
+    } catch (error) {
+      removeStackedOverlays();
+      const button = createButton(false);
+      displayOverlay(`Something went wrong: ${error.message}`, button);
+      console.error(error);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+export async function showEditProfileOverlay() {
+  try {
+    const user = await api.profile.view();
+    const form = buildProfileForm(user);
+    onProfileSubmit(form);
+    displayOverlay('Edit profile', form);
+  } catch (error) {
+    removeStackedOverlays();
+    const button = createButton(false);
+    displayOverlay(`Couldn't load profile: ${error.message}`, button);
+    console.error(error);
+  }
+}

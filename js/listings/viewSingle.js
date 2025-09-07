@@ -1,19 +1,53 @@
-import { createCountdown, findHighestBid } from './../utils/math.js';
 import NoroffAPI from './../api.js';
+import { createCountdown, findHighestBid } from './../utils/math.js';
+import { showErrorMessage } from './../utils/validation.js';
 import { getToken } from './../utils/storage.js';
 
 const params = new URLSearchParams(window.location.search);
 const listingId = params.get('id');
 const api = new NoroffAPI();
-const listing = await api.listings.viewSingle(listingId);
 
-const currentBreadcrumb = document.getElementById('current-listing');
-currentBreadcrumb.textContent = listing.title;
+const listingGrid = document.getElementById('listing-grid');
+const listingInfo = document.getElementById('listing-info');
 
-function renderListing() {
+async function renderListing() {
+  // show loading state
+
+  try {
+    const listing = await api.listings.viewSingle(listingId);
+    displayBreadcrumbs(listing);
+    AssembleListing(listing);
+  } catch (error) {
+    const errorContainer = document.getElementById('error-container');
+    showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
+    listingGrid.classList.add('hidden');
+    listingInfo.classList.add('hidden');
+    console.error(error.message);
+  } finally {
+    // hide loading state
+  }
+}
+
+function displayBreadcrumbs(listing) {
+  const currentBreadcrumb = document.getElementById('current-listing');
+  currentBreadcrumb.textContent = listing.title;
+}
+
+function AssembleListing(listing) {
   const title = document.getElementById('listing-title');
   title.textContent = listing.title;
 
+  const description = document.getElementById('listing-description');
+  description.textContent = listing.description;
+
+  addLatestBid(listing);
+  addExpirationDate(listing);
+  addImages(listing);
+  addSellerInfo(listing);
+  addBidHistory(listing);
+}
+
+function addImages(listing) {
   const imgContainer = document.getElementById('listing-img-container');
   const mainImg = document.createElement('img');
   mainImg.classList.add('rounded-xl', 'h-96', 'w-full', 'object-cover');
@@ -64,22 +98,27 @@ function renderListing() {
       imgContainer.append(thumbContainer);
     }
   }
+}
 
-  const description = document.getElementById('listing-description');
-  description.textContent = listing.description;
-
+function addLatestBid(listing) {
   const latestBid = document.getElementById('latest-bid');
   const highestBid = findHighestBid(listing);
   latestBid.textContent = highestBid;
+}
 
+function addExpirationDate(listing) {
   const expiresCountdown = document.getElementById('expires-in');
   expiresCountdown.textContent = new Date(listing.endsAt).toLocaleDateString();
   createCountdown(listing.endsAt, expiresCountdown);
+}
 
+function addSellerInfo(listing) {
   const seller = document.getElementById('seller');
   const sellerInfo = `${listing.seller.name} | ${listing.seller.email}`;
   seller.append(sellerInfo);
+}
 
+function addBidHistory(listing) {
   const bidHistoryContainer = document.getElementById('bid-history-container');
 
   if (listing.bids.length === 0) {
@@ -111,7 +150,7 @@ function isUserLoggedIn() {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('flex', 'flex-col');
     const userMessage = document.createElement('p');
-    userMessage.textContent = 'You have to be logged in to start bidding.';
+    userMessage.textContent = 'You need to be logged in to start bidding.';
     const loginBtn = document.createElement('a');
     loginBtn.href = './../auth/login';
     loginBtn.textContent = 'Login';

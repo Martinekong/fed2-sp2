@@ -74,7 +74,9 @@
           <p id="current-listing" class="font-semibold"></p>
         </div>
 
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <p id="error-container" class="hidden"></p>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2" id="listing-grid">
           <h1
             id="listing-title"
             class="text-6xl font-bold capitalize font-heading"
@@ -110,13 +112,14 @@
                 >arrow_forward</span
               >
             </button>
-            <p id="error-container" class="hidden"></p>
+            <p id="bid-error-container" class="hidden"></p>
           </form>
         </div>
       </section>
 
       <section
         class="flex flex-col gap-8 px-8 mb-24 lg:mx-auto lg:max-w-7xl lg:w-full"
+        id="listing-info"
       >
         <h2 class="text-2xl capitalize">info</h2>
         <div id="seller">

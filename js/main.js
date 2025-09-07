@@ -1,4 +1,5 @@
 import NoroffAPI from './api.js';
+import { getUser } from './utils/storage.js';
 
 const api = new NoroffAPI();
 
@@ -10,28 +11,40 @@ const authBtn = document.getElementById('auth-btn');
 const credits = document.getElementById('credits');
 
 async function initHeader() {
-  const user = await api.profile.view();
+  try {
+    const isUserLoggedIn = getUser();
 
-  if (user) {
-    authLink.textContent = 'logout';
-    authBtn.textContent = 'logout';
-    authBtn.setAttribute('aria-label', 'logout');
-    authLink.addEventListener('click', logoutUser);
-    authBtn.addEventListener('click', logoutUser);
-    credits.textContent = `Credits: ${user.credits}`;
-  } else {
-    authLink.textContent = 'login';
-    authBtn.textContent = 'login';
-    authBtn.setAttribute('aria-label', 'login');
+    if (isUserLoggedIn) {
+      const user = await api.profile.view();
+      setLoggedInUi(user);
+    } else {
+      setLoggedOutUi();
+    }
+  } catch (error) {
+    console.error(error.message);
   }
 }
 
-initHeader();
+function setLoggedOutUi() {
+  authLink.textContent = 'login';
+  authBtn.textContent = 'login';
+  authBtn.setAttribute('aria-label', 'login');
+}
+
+function setLoggedInUi(user) {
+  authLink.textContent = 'logout';
+  authBtn.textContent = 'logout';
+  authBtn.setAttribute('aria-label', 'logout');
+  authLink.addEventListener('click', logoutUser);
+  authBtn.addEventListener('click', logoutUser);
+  credits.textContent = `Credits: ${user.credits}`;
+}
 
 function logoutUser() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   credits.textContent = '';
+  setLoggedInUi();
 }
 
 openMenu.addEventListener('click', () => {
@@ -44,36 +57,38 @@ closeMenu.addEventListener('click', () => {
   closeMenu.classList.add('hidden');
 });
 
+function getBasePath() {
+  const { origin, hostname } = window.location;
+  if (hostname.includes('github.io')) {
+    return `${origin}/fed2-sp2`;
+  }
+  console.log('pathname', origin);
+  return origin;
+}
+// Move this so it can be used for other path fixes as well?
+
+async function navigationPathsToProfile() {
+  const profileNav = document.getElementById('profile-nav');
+
+  const user = getUser();
+  const path = getBasePath();
+
+  if (!user) {
+    profileNav.href = `${path}/auth/login`;
+    return;
+  }
+
+  profileNav.href = `${path}/profile`;
+}
+
+// Refactor the navigation paths to include all nav links in header using the basePath.
+
 function showFooterContent() {
   const year = new Date().getFullYear();
   const copyrightEl = document.getElementById('copyright');
   copyrightEl.textContent = `© ${year} Martine Kongsrud`;
 }
 
-showFooterContent();
-
-async function navigationPathsToProfile() {
-  const profileNav = document.getElementById('profile-nav');
-
-  const user = await api.profile.view();
-
-  if (!user) {
-    profileNav.href = `${window.location.origin}/auth/login`;
-    return;
-  }
-
-  if (window.location.pathname.includes('profile')) {
-    profileNav.href = './';
-  } else if (window.location.pathname.includes('auth')) {
-    profileNav.href = './../../profile';
-  } else if (
-    window.location.pathname.includes('listing') ||
-    window.location.pathname.includes('about')
-  ) {
-    profileNav.href = './../profile';
-  } else {
-    profileNav.href = './profile';
-  }
-}
-
+initHeader();
 navigationPathsToProfile();
+showFooterContent();

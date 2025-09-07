@@ -8,24 +8,44 @@ import {
 
 const api = new NoroffAPI();
 
-export async function deleteListing(id) {
+export function deleteListing(id) {
   removeStackedOverlays();
 
   const options = document.createElement('div');
   options.classList.add('flex', 'flex-col', 'gap-4');
 
-  const noButton = createButton();
-  noButton.textContent = 'no';
-  noButton.addEventListener('click', () => {
-    removeStackedOverlays();
-  });
+  const noBtn = createButton();
+  noBtn.textContent = 'no';
 
   const yesBtn = createDeleteButton('yes, delete');
-  yesBtn.addEventListener('click', () => {
+
+  options.append(noBtn, yesBtn);
+
+  displayOverlay('Are you sure you want to delete this listing?', options);
+
+  noBtn.addEventListener('click', () => {
     removeStackedOverlays();
-    api.listings.delete(id);
   });
 
-  options.append(noButton, yesBtn);
-  displayOverlay('Are you sure you want to delete this listing?', options);
+  yesBtn.addEventListener('click', async () => {
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+    yesBtn.textContent = 'deleting…';
+
+    try {
+      await api.listings.delete(id);
+      removeStackedOverlays();
+      const button = createButton(true);
+      displayOverlay(
+        'Your listing has been successfully deleted!',
+        button,
+        true,
+      );
+    } catch (error) {
+      removeStackedOverlays();
+      const button = createButton(false);
+      displayOverlay(`Something went wrong: ${error.message}`, button);
+      console.error(error);
+    }
+  });
 }

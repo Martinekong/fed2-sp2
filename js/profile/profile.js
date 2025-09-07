@@ -1,3 +1,4 @@
+import NoroffAPI from './../api.js';
 import {
   createCard,
   createCardImage,
@@ -5,19 +6,35 @@ import {
   createCardInfo,
   createCardBtn,
 } from './../utils/cardComponents.js';
+import { showEditProfileOverlay } from './updateProfile.js';
+import { showCreateListingOverlay } from './../listings/create.js';
 import { showEditListingOverlay } from './../listings/edit.js';
-import NoroffAPI from './../api.js';
+import { showErrorMessage } from './../utils/validation.js';
 
 const api = new NoroffAPI();
+const editProfileBtn = document.getElementById('edit-profile-btn');
+const createListingBtn = document.getElementById('create-listing-btn');
+const activeBidsContainer = document.getElementById('active-bids-container');
+const myListingsContainer = document.getElementById('my-listings-container');
 
 async function renderUser() {
-  const user = await api.profile.view();
-
-  if (user === undefined) {
-    window.location.href = './../auth/login/';
-    return;
+  // show loading ui for profile info
+  try {
+    const user = await api.profile.view();
+    if (user === undefined) {
+      window.location.href = './../auth/login/';
+      return;
+    }
+    showUserInfo(user);
+  } catch (error) {
+    // error handling
+    console.error(error.message);
+  } finally {
+    // hide loading ui
   }
+}
 
+function showUserInfo(user) {
   const userBanner = document.getElementById('user-banner');
   const userAvatar = document.getElementById('user-avatar');
   const username = document.getElementById('username');
@@ -31,53 +48,51 @@ async function renderUser() {
   username.textContent = user.name;
   bio.textContent = user.bio;
   userCredits.textContent = user.credits;
+
+  editProfileBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    showEditProfileOverlay();
+  });
+
+  createListingBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    showCreateListingOverlay();
+  });
 }
 
-renderUser();
+async function renderUsersBids() {
+  // show loading ui for bids user has bid on
+  try {
+    const bids = await api.profile.bids();
 
-async function showUserBids() {
-  const activeBidsContainer = document.getElementById('active-bids-container');
-  const bids = await api.profile.bids();
+    if (bids.length === 0) {
+      return;
+    }
 
-  if (bids.length === 0) {
-    return;
-  }
+    activeBidsContainer.innerHTML = '';
 
-  activeBidsContainer.innerHTML = '';
-
-  for (const bid of bids) {
-    const card = await assembleBidCard(bid);
-    activeBidsContainer.append(card);
-  }
-}
-
-async function showUserListings() {
-  const myListingsContainer = document.getElementById('my-listings-container');
-  const listings = await api.profile.listings();
-
-  if (listings.length === 0) {
-    return;
-  }
-
-  myListingsContainer.innerHTML = '';
-
-  for (const listing of listings) {
-    console.log('this is a single user listing:', listing);
-    const card = await assembleListingCard(listing);
-    myListingsContainer.append(card);
+    for (const bid of bids) {
+      const product = await api.listings.viewSingle(bid.listing.id);
+      const card = assembleBidCard(bid, product);
+      activeBidsContainer.append(card);
+    }
+  } catch (error) {
+    activeBidsContainer.innerHTML = '';
+    const errorContainer = document.getElementById('bids-error-container');
+    showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
+    console.error(error.message);
+  } finally {
+    // hide loading ui
   }
 }
 
-async function assembleBidCard(listing) {
+function assembleBidCard(listing, product) {
   const href = `./../listing/index.html?id=${listing.listing.id}`;
   const card = createCard(href);
   const image = createCardImage(listing.listing);
   const infoDiv = createCardInfoDiv(listing.listing);
   const yourBid = createCardInfo(listing.amount, 'yourBid');
-
-  const product = await api.listings.viewSingle(listing.listing.id);
   const highestBid = createCardInfo(product, 'latestBid');
-
   const endDate = createCardInfo(listing.listing, 'endDate');
   infoDiv.append(yourBid, highestBid, endDate);
   const button = createCardBtn('Update bid');
@@ -85,7 +100,32 @@ async function assembleBidCard(listing) {
   return card;
 }
 
-async function assembleListingCard(listing) {
+async function renderUsersListings() {
+  // show loading ui for users own listings
+  try {
+    const listings = await api.profile.listings();
+
+    if (listings.length === 0) {
+      return;
+    }
+
+    myListingsContainer.innerHTML = '';
+
+    for (const listing of listings) {
+      const card = assembleListingCard(listing);
+      myListingsContainer.append(card);
+    }
+  } catch (error) {
+    myListingsContainer.innerHTML = '';
+    const errorContainer = document.getElementById('listings-error-container');
+    showErrorMessage(errorContainer, 'Something went wrong. Please try again');
+    console.error(error.message);
+  } finally {
+    // hide loading ui
+  }
+}
+
+function assembleListingCard(listing) {
   const href = `./../listing/index.html?id=${listing.id}`;
   const card = createCard(href);
   const image = createCardImage(listing);
@@ -93,20 +133,21 @@ async function assembleListingCard(listing) {
   const highestBid = createCardInfo(listing, 'latestBid');
   const endDate = createCardInfo(listing, 'endDate');
   infoDiv.append(highestBid, endDate);
-  const button = createCardBtn('Edit Listing');
+  const editListingBtn = createCardBtn('Edit Listing');
 
-  button.addEventListener('click', (event) => {
+  editListingBtn.addEventListener('click', (event) => {
     event.preventDefault();
     showEditListingOverlay(listing.id);
   });
 
-  card.append(image, infoDiv, button);
+  card.append(image, infoDiv, editListingBtn);
   return card;
 }
 
-showUserBids();
-showUserListings();
+renderUser();
+renderUsersBids();
+renderUsersListings();
 
 // TODO:
-// Add skeleton loader to banner and avatar/page
+// Fix loading ui for renderUser, renderUsersBids and renderUsersListings
 // Render wins ?

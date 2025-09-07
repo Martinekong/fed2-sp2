@@ -5,33 +5,44 @@ import {
   createInputDiv,
   createOverlayForm,
   createSubmitButton,
+  createButton,
   displayOverlay,
+  removeStackedOverlays,
 } from './../utils/overlay.js';
 import { deleteListing } from './delete.js';
 import { toLocalDatetimeValue } from './../utils/math.js';
 
 const api = new NoroffAPI();
 
-export async function showEditListingOverlay(id) {
-  const listing = await api.listings.viewSingle(id);
-
+function buildTitleSection(listing) {
   const title = createInputDiv('title', {
     labelText: 'Product title',
     value: listing.title,
     placeholder: 'Enter product title',
   });
 
-  const titleInput = title.querySelector('input');
-  titleInput.required = true;
+  const input = title.querySelector('input');
+  input.required = true;
 
+  input.addEventListener('invalid', () => input.classList.add('border-error'));
+  input.addEventListener('input', () => input.classList.remove('border-error'));
+
+  return title;
+}
+
+function buildDescriptionSection(listing) {
   const description = createInputDiv('description', {
     labelText: 'Product description',
     value: listing.description,
     placeholder: 'Describe your product',
   });
 
-  const mediaContainer = document.createElement('div');
-  mediaContainer.classList.add('flex', 'flex-col', 'gap-2');
+  return description;
+}
+
+function buildMediaSection(listing) {
+  const container = document.createElement('div');
+  container.classList.add('flex', 'flex-col', 'gap-2');
 
   const images = listing.media;
   images.forEach((image) => {
@@ -48,12 +59,12 @@ export async function showEditListingOverlay(id) {
       placeholder: 'Describe the image',
     });
 
-    mediaContainer.append(imageUrl, imageAlt);
+    container.append(imageUrl, imageAlt);
   });
 
-  const addImageBtn = createAddImageBtn();
+  const addBtn = createAddImageBtn();
 
-  addImageBtn.addEventListener('click', () => {
+  addBtn.addEventListener('click', () => {
     const newUrl = createInputDiv('imageUrl', {
       labelText: 'Image URL',
       type: 'url',
@@ -63,9 +74,13 @@ export async function showEditListingOverlay(id) {
       labelText: 'Image ALT',
       placeholder: 'Describe the image',
     });
-    mediaContainer.append(newUrl, newAlt);
+    container.append(newUrl, newAlt);
   });
 
+  return { container, addBtn };
+}
+
+function buildEndsAtSection(listing) {
   const endsAt = createInputDiv('endsAt', {
     labelText: `Expiration date (can't be changed)`,
     type: 'datetime-local',
@@ -75,46 +90,81 @@ export async function showEditListingOverlay(id) {
   const endsAtInput = endsAt.querySelector('input');
   endsAtInput.disabled = true;
 
-  const submitBtn = createSubmitButton('save changes');
-  const deleteBtn = createDeleteButton('delete listing');
+  return endsAt;
+}
 
-  deleteBtn.addEventListener('click', () => {
-    console.log('delete clicked');
-    deleteListing(id);
-  });
+function getUpdatedListingFrom(form) {
+  const formData = new FormData(form);
 
-  const form = createOverlayForm([
-    title,
-    description,
-    mediaContainer,
-    addImageBtn,
-    endsAt,
-    submitBtn,
-    deleteBtn,
-  ]);
+  const title = formData.get('title')?.trim();
+  const description = formData.get('description')?.trim() || '';
+  const urls = formData.getAll('imageUrl').map((v) => v.trim());
+  const alts = formData.getAll('imageAlt').map((v) => v.trim());
+  const media = urls
+    .map((url, i) => ({ url, alt: alts[i] || '' }))
+    .filter((m) => m.url.length > 0);
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+  return { title, description, media };
+}
 
-    const formData = new FormData(form);
+export async function showEditListingOverlay(id) {
+  try {
+    const listing = await api.listings.viewSingle(id);
+    const title = buildTitleSection(listing);
+    const description = buildDescriptionSection(listing);
+    const { container: mediaContainer, addBtn: addImageBtn } =
+      buildMediaSection(listing);
+    const endsAt = buildEndsAtSection(listing);
 
-    const title = formData.get('title')?.trim();
-    const description = formData.get('description')?.trim() || '';
+    const submitBtn = createSubmitButton('save changes');
+    const deleteBtn = createDeleteButton('delete listing');
+    deleteBtn.addEventListener('click', () => deleteListing(id));
 
-    const urls = formData.getAll('imageUrl').map((v) => v.trim());
-    const alts = formData.getAll('imageAlt').map((v) => v.trim());
-    const media = urls.map((url, i) => ({ url, alt: alts[i] || '' }));
-
-    const updatedListing = {
+    const form = createOverlayForm([
       title,
       description,
-      media: media.filter((m) => m.url.length > 0),
-    };
+      mediaContainer,
+      addImageBtn,
+      endsAt,
+      submitBtn,
+      deleteBtn,
+    ]);
 
-    await api.listings.update(updatedListing, id);
-    form.closest('.overlay')?.remove();
-    document.querySelector('.overlay-bg')?.remove();
-  });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const deleteBtn = form.querySelector('button.tertiary-btn');
 
-  displayOverlay('Edit listing', form);
+      try {
+        submitBtn.disabled = true;
+        deleteBtn.disabled = true;
+        submitBtn.textContent = 'saving...';
+        const { title, description, media } = getUpdatedListingFrom(form);
+
+        await api.listings.update({ title, description, media }, id);
+
+        removeStackedOverlays();
+        const button = createButton(true);
+        displayOverlay(
+          'Your listing has been successfully updated!',
+          button,
+          true,
+        );
+      } catch (error) {
+        removeStackedOverlays();
+        const button = createButton();
+        displayOverlay(`Something went wrong: ${error.message} `, button);
+        console.error(error);
+      } finally {
+        submitBtn.disabled = false;
+        deleteBtn.disabled = false;
+      }
+    });
+
+    displayOverlay('Edit listing', form);
+  } catch (error) {
+    const button = createButton(false);
+    displayOverlay(`Couldn't load listing: ${error.message}`, button);
+    console.error(error);
+  }
 }
