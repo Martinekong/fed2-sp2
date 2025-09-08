@@ -12,8 +12,11 @@ const api = new NoroffAPI();
 const listingGrid = document.getElementById('listing-grid');
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search');
+const sortBtn = document.getElementById('sort-btn');
+const sortArrow = document.getElementById('sort-arrow');
 
 let allListings = [];
+let sortDirection = 'down';
 
 function clearGrid() {
   listingGrid.innerHTML = '';
@@ -27,9 +30,8 @@ function renderListings(listings) {
     listingGrid.append(p);
     return;
   }
-  listings.forEach((listing) =>
-    listingGrid.append(assembleListingCard(listing)),
-  );
+  const sorted = sortListings(listings, sortDirection);
+  sorted.forEach((listing) => listingGrid.append(assembleListingCard(listing)));
 }
 
 export function assembleListingCard(listing) {
@@ -48,6 +50,7 @@ export function assembleListingCard(listing) {
 async function loadAll() {
   try {
     allListings = await api.listings.viewAll();
+    console.log(allListings);
     renderListings(allListings);
   } catch (error) {
     const errorContainer = document.getElementById('error-container');
@@ -83,7 +86,34 @@ searchForm.addEventListener('submit', (event) => {
   renderSearch(searchInput.value.trim());
 });
 
-loadAll();
+function sortListings(listings, direction = 'down') {
+  return [...listings].sort((a, b) => {
+    const aTime = new Date(a.endsAt).getTime();
+    const bTime = new Date(b.endsAt).getTime();
 
-// TODO:
-// Add filter functionality
+    if (direction === 'down') {
+      return aTime - bTime;
+    } else {
+      return bTime - aTime;
+    }
+  });
+}
+
+sortBtn.addEventListener('click', () => {
+  if (sortDirection === 'down') {
+    sortDirection = 'up';
+    sortArrow.textContent = 'arrow_upward';
+  } else {
+    sortDirection = 'down';
+    sortArrow.textContent = 'arrow_downward';
+  }
+
+  const query = searchInput.value.trim();
+  if (query) {
+    renderSearch(query);
+  } else {
+    renderListings(allListings);
+  }
+});
+
+loadAll();

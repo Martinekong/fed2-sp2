@@ -74,22 +74,33 @@
             items.
           </p>
         </div>
-        <form class="relative max-w-96" id="search-form">
-          <input
-            type="search"
-            name="search"
-            id="search"
-            class="input"
-            placeholder="Search for listings"
-          />
+        <div class="flex items-center gap-4 lg:gap-0">
+          <form class="relative w-full lg:w-1/2 lg:pr-6" id="search-form">
+            <input
+              type="search"
+              name="search"
+              id="search"
+              class="min-w-0 input"
+              placeholder="Search for listings"
+            />
+            <button
+              id="search-btn"
+              class="absolute top-0 right-0 px-4 py-2 lg:right-6"
+              type="submit"
+            >
+              <span class="material-symbols-outlined"> search </span>
+            </button>
+          </form>
           <button
-            id="search-btn"
-            class="absolute top-0 right-0 px-4 py-2"
-            type="submit"
+            class="flex items-center gap-1 p-4 whitespace-nowrap lg:pl-6"
+            id="sort-btn"
           >
-            <span class="material-symbols-outlined"> search </span>
+            <span class="material-symbols-outlined">alarm</span>
+            <span class="material-symbols-outlined" id="sort-arrow"
+              >arrow_downward</span
+            >
           </button>
-        </form>
+        </div>
         <p id="error-container" class="hidden"></p>
         <div
           id="listing-grid"
