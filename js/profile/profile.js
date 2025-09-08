@@ -71,7 +71,9 @@ async function renderUsersBids() {
 
     activeBidsContainer.innerHTML = '';
 
-    for (const bid of bids) {
+    const finalBids = removeDuplicateBids(bids);
+
+    for (const bid of finalBids) {
       const product = await api.listings.viewSingle(bid.listing.id);
       const card = assembleBidCard(bid, product);
       activeBidsContainer.append(card);
@@ -84,6 +86,18 @@ async function renderUsersBids() {
   } finally {
     // hide loading ui
   }
+}
+
+function removeDuplicateBids(bids) {
+  const map = new Map();
+
+  for (const bid of bids) {
+    const listingId = bid.listing.id;
+    if (!map.has(listingId) || bid.amount > map.get(listingId).amount) {
+      map.set(listingId, bid);
+    }
+  }
+  return Array.from(map.values());
 }
 
 function assembleBidCard(listing, product) {
@@ -118,7 +132,7 @@ async function renderUsersListings() {
   } catch (error) {
     myListingsContainer.innerHTML = '';
     const errorContainer = document.getElementById('listings-error-container');
-    showErrorMessage(errorContainer, 'Something went wrong. Please try again');
+    showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
     console.error(error.message);
   } finally {
     // hide loading ui
