@@ -65,8 +65,13 @@ export function createCardInfo(listing, name) {
     content.classList.add('font-bold');
   } else if (name === 'endDate') {
     text.textContent = 'Expires in:';
-    content.textContent = new Date(listing.endsAt).toLocaleDateString();
-    createCountdown(listing.endsAt, content);
+    text.textContent = 'Expires in:';
+    if (new Date(listing.endsAt) <= new Date()) {
+      content.textContent = 'Expired';
+    } else {
+      content.textContent = new Date(listing.endsAt).toLocaleDateString();
+      createCountdown(listing.endsAt, content);
+    }
   } else if (name === 'yourBid') {
     text.textContent = 'Your bid:';
     content.textContent = listing;

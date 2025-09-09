@@ -108,8 +108,21 @@ function addLatestBid(listing) {
 
 function addExpirationDate(listing) {
   const expiresCountdown = document.getElementById('expires-in');
-  expiresCountdown.textContent = new Date(listing.endsAt).toLocaleDateString();
-  createCountdown(listing.endsAt, expiresCountdown);
+  if (new Date(listing.endsAt) <= new Date()) {
+    const bidBtn = document.getElementById('bid-btn');
+    const bidErrorContainer = document.getElementById('bid-error-container');
+    showErrorMessage(
+      bidErrorContainer,
+      'You cannot bid on an expired listing.',
+    );
+    bidBtn.disabled = 'true';
+    expiresCountdown.textContent = 'Expired';
+  } else {
+    expiresCountdown.textContent = new Date(
+      listing.endsAt,
+    ).toLocaleDateString();
+    createCountdown(listing.endsAt, expiresCountdown);
+  }
 }
 
 function addSellerInfo(listing) {
