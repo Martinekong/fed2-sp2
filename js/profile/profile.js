@@ -10,22 +10,17 @@ import { showEditProfileOverlay } from './updateProfile.js';
 import { showCreateListingOverlay } from './../listings/create.js';
 import { showEditListingOverlay } from './../listings/edit.js';
 import { showErrorMessage, showUserMessage } from './../utils/validation.js';
-import {
-  setLoadingBannerAndAvatar,
-  showLoadingSpinner,
-  hideLoadingSpinner,
-} from './../utils/loaders.js';
+import { showLoadingSpinner, hideLoadingSpinner } from './../utils/loaders.js';
 
 const api = new NoroffAPI();
 const userMedia = document.getElementById('user-media');
 const userInfo = document.getElementById('user-info');
-const editProfileBtn = document.getElementById('edit-profile-btn');
-const createListingBtn = document.getElementById('create-listing-btn');
-const activeBidsContainer = document.getElementById('active-bids-container');
-const myListingsContainer = document.getElementById('my-listings-container');
 
 async function renderUser() {
-  setLoadingBannerAndAvatar(userMedia);
+  const profileHead = document.getElementById('profile-head');
+  showLoadingSpinner(profileHead);
+  userMedia.classList.add('hidden');
+  userInfo.classList.add('hidden');
 
   try {
     const user = await api.profile.view();
@@ -42,6 +37,10 @@ async function renderUser() {
       'Something went wrong when loading profile info. Please try again.',
     );
     console.error(error.message);
+  } finally {
+    userMedia.classList.remove('hidden');
+    userInfo.classList.remove('hidden');
+    hideLoadingSpinner(profileHead);
   }
 }
 
@@ -62,10 +61,14 @@ function showUserInfo(user) {
   bio.textContent = user.bio;
   userCredits.textContent = user.credits;
 
+  const editProfileBtn = document.getElementById('edit-profile-btn');
+
   editProfileBtn.addEventListener('click', (event) => {
     event.preventDefault();
     showEditProfileOverlay();
   });
+
+  const createListingBtn = document.getElementById('create-listing-btn');
 
   createListingBtn.addEventListener('click', (event) => {
     event.preventDefault();
@@ -96,6 +99,7 @@ function createUserAvatar() {
 }
 
 async function renderUsersBids() {
+  const activeBidsContainer = document.getElementById('active-bids-container');
   showLoadingSpinner(activeBidsContainer);
   try {
     const bids = await api.profile.bids();
@@ -154,6 +158,7 @@ function assembleBidCard(listing, product) {
 }
 
 async function renderUsersListings() {
+  const myListingsContainer = document.getElementById('my-listings-container');
   showLoadingSpinner(myListingsContainer);
   try {
     const listings = await api.profile.listings();

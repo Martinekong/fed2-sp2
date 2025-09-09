@@ -2,19 +2,22 @@ import NoroffAPI from './../api.js';
 import { createCountdown, findHighestBid } from './../utils/math.js';
 import { showErrorMessage } from './../utils/validation.js';
 import { getToken } from './../utils/storage.js';
-import { setLoadingStateForSingleListing } from './../utils/loaders.js';
+import { showLoadingSpinner, hideLoadingSpinner } from './../utils/loaders.js';
 
 const params = new URLSearchParams(window.location.search);
 const listingId = params.get('id');
 const api = new NoroffAPI();
 
+const spinnerContainer = document.getElementById('spinner-container');
 const listingGrid = document.getElementById('listing-grid');
 const listingInfo = document.getElementById('listing-info');
 const bidBtn = document.getElementById('bid-btn');
 
 async function renderListing() {
-  setLoadingStateForSingleListing();
-  bidBtn.disabled = true;
+  listingGrid.classList.add('hidden');
+  listingInfo.classList.add('hidden');
+  spinnerContainer.classList.remove('hidden');
+  showLoadingSpinner(spinnerContainer);
 
   try {
     const listing = await api.listings.viewSingle(listingId);
@@ -27,7 +30,10 @@ async function renderListing() {
     listingInfo.classList.add('hidden');
     console.error(error.message);
   } finally {
-    bidBtn.disabled = false;
+    hideLoadingSpinner(spinnerContainer);
+    spinnerContainer.classList.add('hidden');
+    listingGrid.classList.remove('hidden');
+    listingInfo.classList.remove('hidden');
   }
 }
 
