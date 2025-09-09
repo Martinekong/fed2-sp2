@@ -2,6 +2,7 @@ import NoroffAPI from './../api.js';
 import { createCountdown, findHighestBid } from './../utils/math.js';
 import { showErrorMessage } from './../utils/validation.js';
 import { getToken } from './../utils/storage.js';
+import { setLoadingStateForSingleListing } from './../utils/loaders.js';
 
 const params = new URLSearchParams(window.location.search);
 const listingId = params.get('id');
@@ -9,9 +10,11 @@ const api = new NoroffAPI();
 
 const listingGrid = document.getElementById('listing-grid');
 const listingInfo = document.getElementById('listing-info');
+const bidBtn = document.getElementById('bid-btn');
 
 async function renderListing() {
-  // show loading state
+  setLoadingStateForSingleListing();
+  bidBtn.disabled = true;
 
   try {
     const listing = await api.listings.viewSingle(listingId);
@@ -24,7 +27,7 @@ async function renderListing() {
     listingInfo.classList.add('hidden');
     console.error(error.message);
   } finally {
-    // hide loading state
+    bidBtn.disabled = false;
   }
 }
 
@@ -49,6 +52,7 @@ function AssembleListing(listing) {
 
 function addImages(listing) {
   const imgContainer = document.getElementById('listing-img-container');
+  imgContainer.innerHTML = '';
   const mainImg = document.createElement('img');
   mainImg.classList.add('rounded-xl', 'h-96', 'w-full', 'object-cover');
 
@@ -109,13 +113,12 @@ function addLatestBid(listing) {
 function addExpirationDate(listing) {
   const expiresCountdown = document.getElementById('expires-in');
   if (new Date(listing.endsAt) <= new Date()) {
-    const bidBtn = document.getElementById('bid-btn');
     const bidErrorContainer = document.getElementById('bid-error-container');
     showErrorMessage(
       bidErrorContainer,
       'You cannot bid on an expired listing.',
     );
-    bidBtn.disabled = 'true';
+    bidBtn.disabled = true;
     expiresCountdown.textContent = 'Expired';
   } else {
     expiresCountdown.textContent = new Date(
