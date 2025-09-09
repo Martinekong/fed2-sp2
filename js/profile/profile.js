@@ -73,6 +73,10 @@ async function renderUsersBids() {
 
     const finalBids = removeDuplicateBids(bids);
 
+    finalBids.sort(
+      (a, b) => new Date(a.listing.endsAt) - new Date(b.listing.endsAt),
+    );
+
     for (const bid of finalBids) {
       const product = await api.listings.viewSingle(bid.listing.id);
       const card = assembleBidCard(bid, product);
@@ -124,6 +128,8 @@ async function renderUsersListings() {
     }
 
     myListingsContainer.innerHTML = '';
+
+    listings.sort((a, b) => new Date(a.endsAt) - new Date(b.endsAt));
 
     for (const listing of listings) {
       const card = assembleListingCard(listing);
