@@ -9,8 +9,12 @@ import {
 import { showEditProfileOverlay } from './updateProfile.js';
 import { showCreateListingOverlay } from './../listings/create.js';
 import { showEditListingOverlay } from './../listings/edit.js';
-import { showErrorMessage } from './../utils/validation.js';
-import { setLoadingBannerAndAvatar } from './../utils/loaders.js';
+import { showErrorMessage, showUserMessage } from './../utils/validation.js';
+import {
+  setLoadingBannerAndAvatar,
+  showLoadingSpinner,
+  hideLoadingSpinner,
+} from './../utils/loaders.js';
 
 const api = new NoroffAPI();
 const userMedia = document.getElementById('user-media');
@@ -92,34 +96,34 @@ function createUserAvatar() {
 }
 
 async function renderUsersBids() {
-  // show loading ui for bids user has bid on
+  showLoadingSpinner(activeBidsContainer);
   try {
     const bids = await api.profile.bids();
 
     if (bids.length === 0) {
+      hideLoadingSpinner(activeBidsContainer);
+      showUserMessage(activeBidsContainer, 'You have no active bids.');
       return;
     }
 
-    activeBidsContainer.innerHTML = '';
-
-    const finalBids = removeDuplicateBids(bids);
-
-    finalBids.sort(
+    const finalBids = removeDuplicateBids(bids).sort(
       (a, b) => new Date(a.listing.endsAt) - new Date(b.listing.endsAt),
     );
 
-    for (const bid of finalBids) {
-      const product = await api.listings.viewSingle(bid.listing.id);
-      const card = assembleBidCard(bid, product);
-      activeBidsContainer.append(card);
-    }
+    const products = await Promise.all(
+      finalBids.map((bid) => api.listings.viewSingle(bid.listing.id)),
+    );
+
+    const cards = finalBids.map((bid, i) => assembleBidCard(bid, products[i]));
+
+    activeBidsContainer.replaceChildren(...cards);
   } catch (error) {
     activeBidsContainer.innerHTML = '';
     const errorContainer = document.getElementById('bids-error-container');
     showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
     console.error(error.message);
   } finally {
-    // hide loading ui
+    hideLoadingSpinner(activeBidsContainer);
   }
 }
 
@@ -150,29 +154,28 @@ function assembleBidCard(listing, product) {
 }
 
 async function renderUsersListings() {
-  // show loading ui for users own listings
+  showLoadingSpinner(myListingsContainer);
   try {
     const listings = await api.profile.listings();
 
     if (listings.length === 0) {
+      hideLoadingSpinner(myListingsContainer);
+      showUserMessage(myListingsContainer, 'You have no active listings.');
       return;
     }
 
-    myListingsContainer.innerHTML = '';
-
     listings.sort((a, b) => new Date(a.endsAt) - new Date(b.endsAt));
 
-    for (const listing of listings) {
-      const card = assembleListingCard(listing);
-      myListingsContainer.append(card);
-    }
+    const cards = listings.map((listing) => assembleListingCard(listing));
+
+    myListingsContainer.replaceChildren(...cards);
   } catch (error) {
     myListingsContainer.innerHTML = '';
     const errorContainer = document.getElementById('listings-error-container');
     showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
     console.error(error.message);
   } finally {
-    // hide loading ui
+    hideLoadingSpinner(myListingsContainer);
   }
 }
 
@@ -200,5 +203,4 @@ renderUsersBids();
 renderUsersListings();
 
 // TODO:
-// Fix loading ui for renderUsersBids and renderUsersListings
 // Render wins ?
