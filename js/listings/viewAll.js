@@ -6,7 +6,8 @@ import {
   createCardInfo,
   createCardBtn,
 } from './../utils/cardComponents.js';
-import { showErrorMessage } from './../utils/validation.js';
+import { showErrorMessage, showUserMessage } from './../utils/validation.js';
+import { showLoadingSpinner, hideLoadingSpinner } from './../utils/loaders.js';
 
 const api = new NoroffAPI();
 const listingGrid = document.getElementById('listing-grid');
@@ -14,6 +15,7 @@ const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search');
 const sortBtn = document.getElementById('sort-btn');
 const sortArrow = document.getElementById('sort-arrow');
+const errorContainer = document.getElementById('error-container');
 
 let allListings = [];
 let sortDirection = 'down';
@@ -25,9 +27,7 @@ function clearGrid() {
 function renderListings(listings) {
   clearGrid();
   if (!listings.length) {
-    const p = document.createElement('p');
-    p.textContent = 'No listings match your search.';
-    listingGrid.append(p);
+    showUserMessage(listingGrid, 'No listings match your search.');
     return;
   }
   const sorted = sortListings(listings, sortDirection);
@@ -48,26 +48,29 @@ export function assembleListingCard(listing) {
 }
 
 async function loadAll() {
+  showLoadingSpinner(listingGrid);
   try {
     allListings = await api.listings.viewAll();
-    console.log(allListings);
     renderListings(allListings);
   } catch (error) {
-    const errorContainer = document.getElementById('error-container');
+    clearGrid();
     showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
     console.error(error.message);
+  } finally {
+    hideLoadingSpinner(listingGrid);
   }
 }
 
 async function renderSearch(query) {
-  const errorContainer = document.getElementById('error-container');
-
   if (!query) {
     renderListings(allListings);
     errorContainer.classList.add('hidden');
 
     return;
   }
+
+  showLoadingSpinner(listingGrid);
+
   try {
     const results = await api.listings.search(query);
     const ids = new Set(results.map((result) => result.id));
@@ -75,9 +78,10 @@ async function renderSearch(query) {
     errorContainer.classList.add('hidden');
     renderListings(filtered);
   } catch (error) {
-    clearGrid();
     showErrorMessage(errorContainer, 'Search failed. Please try again.');
     console.error(error.message);
+  } finally {
+    hideLoadingSpinner(listingGrid);
   }
 }
 
