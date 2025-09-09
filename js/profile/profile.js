@@ -10,15 +10,19 @@ import { showEditProfileOverlay } from './updateProfile.js';
 import { showCreateListingOverlay } from './../listings/create.js';
 import { showEditListingOverlay } from './../listings/edit.js';
 import { showErrorMessage } from './../utils/validation.js';
+import { setLoadingBannerAndAvatar } from './../utils/loaders.js';
 
 const api = new NoroffAPI();
+const userMedia = document.getElementById('user-media');
+const userInfo = document.getElementById('user-info');
 const editProfileBtn = document.getElementById('edit-profile-btn');
 const createListingBtn = document.getElementById('create-listing-btn');
 const activeBidsContainer = document.getElementById('active-bids-container');
 const myListingsContainer = document.getElementById('my-listings-container');
 
 async function renderUser() {
-  // show loading ui for profile info
+  setLoadingBannerAndAvatar(userMedia);
+
   try {
     const user = await api.profile.view();
     if (user === undefined) {
@@ -27,24 +31,29 @@ async function renderUser() {
     }
     showUserInfo(user);
   } catch (error) {
-    // error handling
+    userMedia.innerHTML = '';
+    userInfo.innerHTML = '';
+    showErrorMessage(
+      userMedia,
+      'Something went wrong when loading profile info. Please try again.',
+    );
     console.error(error.message);
-  } finally {
-    // hide loading ui
   }
 }
 
 function showUserInfo(user) {
-  const userBanner = document.getElementById('user-banner');
-  const userAvatar = document.getElementById('user-avatar');
+  const banner = createUserBanner();
+  const avatar = createUserAvatar();
   const username = document.getElementById('username');
   const bio = document.getElementById('bio');
   const userCredits = document.getElementById('user-credits');
 
-  userBanner.src = user.banner.url;
-  userBanner.alt = user.banner.alt;
-  userAvatar.src = user.avatar.url;
-  userAvatar.alt = user.avatar.alt;
+  banner.src = user.banner.url;
+  banner.alt = user.banner.alt;
+  avatar.src = user.avatar.url;
+  avatar.alt = user.avatar.alt;
+  userMedia.innerHTML = '';
+  userMedia.append(banner, avatar);
   username.textContent = user.name;
   bio.textContent = user.bio;
   userCredits.textContent = user.credits;
@@ -58,6 +67,28 @@ function showUserInfo(user) {
     event.preventDefault();
     showCreateListingOverlay();
   });
+}
+
+function createUserBanner() {
+  const banner = document.createElement('img');
+  banner.classList.add('object-cover', 'w-full', 'h-40', 'rounded-2xl');
+  return banner;
+}
+
+function createUserAvatar() {
+  const avatar = document.createElement('img');
+  avatar.classList.add(
+    'absolute',
+    'bottom-0',
+    'object-cover',
+    '-translate-x-1/2',
+    'translate-y-1/4',
+    'w-36',
+    'h-36',
+    'left-1/2',
+    'rounded-2xl',
+  );
+  return avatar;
 }
 
 async function renderUsersBids() {
@@ -169,5 +200,5 @@ renderUsersBids();
 renderUsersListings();
 
 // TODO:
-// Fix loading ui for renderUser, renderUsersBids and renderUsersListings
+// Fix loading ui for renderUsersBids and renderUsersListings
 // Render wins ?

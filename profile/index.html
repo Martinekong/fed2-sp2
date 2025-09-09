@@ -64,27 +64,14 @@
         class="flex flex-col gap-12 px-8 mb-24 mt-14 lg:mx-auto lg:max-w-7xl lg:w-full"
       >
         <h1 class="text-6xl font-bold capitalize font-heading">profile</h1>
-        <div class="relative mb-8">
-          <img
-            src=""
-            alt=""
-            id="user-banner"
-            class="object-cover w-full h-40 rounded-2xl"
-          />
-          <img
-            src=""
-            alt=""
-            id="user-avatar"
-            class="absolute bottom-0 object-cover -translate-x-1/2 translate-y-1/4 w-36 h-36 left-1/2 rounded-2xl"
-          />
-        </div>
-        <div class="flex justify-between">
+        <div class="relative mb-8" id="user-media"></div>
+        <div class="flex justify-between" id="user-info">
           <div class="flex flex-col gap-8">
-            <p id="username" class="text-2xl"></p>
-            <p id="bio"></p>
+            <p id="username" class="text-2xl">Loading...</p>
+            <p id="bio">Loading...</p>
             <div class="flex items-center gap-11">
               <p>Credits:</p>
-              <p id="user-credits" class="text-2xl"></p>
+              <p id="user-credits" class="text-2xl">Loading...</p>
             </div>
             <button id="create-listing-btn" class="secondary-btn w-52 group">
               Add new listings
