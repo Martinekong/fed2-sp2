@@ -85,10 +85,15 @@ export function createAddImageBtn() {
   const addImageBtn = document.createElement('button');
   addImageBtn.type = 'button';
   addImageBtn.textContent = 'Add another image';
-  addImageBtn.classList.add('secondary-btn');
+  addImageBtn.classList.add('secondary-btn', 'group');
 
   const addImageIcon = document.createElement('span');
-  addImageIcon.classList.add('material-symbols-outlined');
+  addImageIcon.classList.add(
+    'material-symbols-outlined',
+    'transition-transform',
+    'duration-300',
+    'group-hover:translate-x-3',
+  );
   addImageIcon.textContent = 'arrow_forward';
 
   addImageBtn.append(addImageIcon);

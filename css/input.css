@@ -36,11 +36,11 @@
   }
 
   .primary-btn {
-    @apply p-4 mt-6 text-center text-white capitalize shadow-lg bg-primary rounded-2xl hover:bg-primary-hover w-60;
+    @apply p-4 mt-6 text-center text-white capitalize shadow-xl bg-primary rounded-2xl hover:bg-primary-hover w-60;
   }
 
   .secondary-btn {
-    @apply flex items-center justify-center w-full gap-4 px-4 py-2 text-white bg-primary rounded-2xl hover:bg-primary-hover;
+    @apply flex items-center justify-center w-full gap-4 px-4 py-2 text-white shadow-xl bg-primary rounded-2xl hover:bg-primary-hover;
   }
 
   .tertiary-btn {

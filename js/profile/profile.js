@@ -78,7 +78,13 @@ function showUserInfo(user) {
 
 function createUserBanner() {
   const banner = document.createElement('img');
-  banner.classList.add('object-cover', 'w-full', 'h-40', 'rounded-2xl');
+  banner.classList.add(
+    'object-cover',
+    'w-full',
+    'h-40',
+    'rounded-2xl',
+    'shadow-xl',
+  );
   return banner;
 }
 
@@ -94,6 +100,7 @@ function createUserAvatar() {
     'h-36',
     'left-1/2',
     'rounded-2xl',
+    'shadow-xl',
   );
   return avatar;
 }
