@@ -78,6 +78,7 @@ async function renderSearch(query) {
     errorContainer.classList.add('hidden');
     renderListings(filtered);
   } catch (error) {
+    clearGrid();
     showErrorMessage(errorContainer, 'Search failed. Please try again.');
     console.error(error.message);
   } finally {

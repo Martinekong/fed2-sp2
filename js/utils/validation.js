@@ -17,8 +17,6 @@ export function showSuccessMessage(container, message) {
   container.classList.add('font-bold', 'text-success');
 }
 
-// smoother transition on these messages? Maybe absolute/relative? Also add border and icon?
-
 export function showUserMessage(container, message) {
   const p = document.createElement('p');
   p.textContent = message;

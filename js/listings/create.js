@@ -5,6 +5,7 @@ import {
   createOverlayForm,
   createSubmitButton,
   displayOverlay,
+  removeStackedOverlays,
 } from './../utils/overlay.js';
 import { createButton } from './../utils/overlay.js';
 import { setRestrictionsOnDateSelection } from '../utils/math.js';
@@ -121,12 +122,11 @@ async function handleCreateSubmit(event) {
 
     await api.listings.create({ title, description, media, endsAt });
 
+    removeStackedOverlays();
     const button = createButton(true);
     displayOverlay('Your listing has been posted successfully!', button, true);
-
-    form.closest('.overlay')?.remove();
-    document.querySelector('.overlay-bg')?.remove();
   } catch (error) {
+    removeStackedOverlays();
     const button = createButton();
     displayOverlay(`Something went wrong: ${error.message} `, button);
     console.error(error.message);

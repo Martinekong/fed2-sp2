@@ -1,7 +1,7 @@
 import NoroffAPI from './../api.js';
 import { createCountdown, findHighestBid } from './../utils/math.js';
 import { showErrorMessage } from './../utils/validation.js';
-import { getToken } from './../utils/storage.js';
+import { getToken, getUser } from './../utils/storage.js';
 import { showLoadingSpinner, hideLoadingSpinner } from './../utils/loaders.js';
 
 const params = new URLSearchParams(window.location.search);
@@ -14,8 +14,7 @@ const listingInfo = document.getElementById('listing-info');
 const bidBtn = document.getElementById('bid-btn');
 
 async function renderListing() {
-  listingGrid.classList.add('hidden');
-  listingInfo.classList.add('hidden');
+  showPageContent(false);
   spinnerContainer.classList.remove('hidden');
   showLoadingSpinner(spinnerContainer);
 
@@ -23,17 +22,26 @@ async function renderListing() {
     const listing = await api.listings.viewSingle(listingId);
     displayBreadcrumbs(listing);
     AssembleListing(listing);
+    isItUsersOwnListing(listing.seller.name);
+    showPageContent();
   } catch (error) {
     const errorContainer = document.getElementById('error-container');
     showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
-    listingGrid.classList.add('hidden');
-    listingInfo.classList.add('hidden');
+    showPageContent(false);
     console.error(error.message);
   } finally {
     hideLoadingSpinner(spinnerContainer);
     spinnerContainer.classList.add('hidden');
+  }
+}
+
+function showPageContent(show = true) {
+  if (show) {
     listingGrid.classList.remove('hidden');
     listingInfo.classList.remove('hidden');
+  } else {
+    listingGrid.classList.add('hidden');
+    listingInfo.classList.add('hidden');
   }
 }
 
@@ -157,6 +165,15 @@ function addBidHistory(listing) {
       bidInfo.textContent = `${bid.bidder.name} | Amount: ${bid.amount}`;
       bidHistoryContainer.append(bidInfo);
     });
+  }
+}
+
+function isItUsersOwnListing(owner) {
+  const user = getUser();
+  if (user === owner) {
+    bidBtn.disabled = true;
+    const bidErrorContainer = document.getElementById('bid-error-container');
+    showErrorMessage(bidErrorContainer, 'You cannot bid on your own listing.');
   }
 }
 
