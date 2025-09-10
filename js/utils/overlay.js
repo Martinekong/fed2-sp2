@@ -112,7 +112,7 @@ export function createSubmitButton(content) {
 export function createButton(shouldReload = false) {
   const button = document.createElement('button');
   button.type = 'button';
-  button.classList.add('primary-btn', 'w-[80vw]', 'sm:w-[400px]');
+  button.classList.add('primary-btn', 'w-[80vw]', 'sm:w-full');
   button.textContent = 'OK';
   button.setAttribute('aria-label', 'close overlay');
 
