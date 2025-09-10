@@ -213,6 +213,3 @@ function assembleListingCard(listing) {
 renderUser();
 renderUsersBids();
 renderUsersListings();
-
-// TODO:
-// Render wins ?

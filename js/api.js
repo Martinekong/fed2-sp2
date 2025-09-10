@@ -186,6 +186,3 @@ export default class NoroffAPI {
     },
   };
 }
-
-// Todo:
-// Add user wins to profile?

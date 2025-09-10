@@ -36,15 +36,15 @@
   }
 
   .primary-btn {
-    @apply p-4 mt-6 text-center text-white capitalize shadow-xl bg-primary rounded-2xl hover:bg-primary-hover w-60;
+    @apply p-4 mt-6 text-center text-white capitalize transition-colors duration-300 ease-in-out shadow-xl bg-primary rounded-2xl hover:bg-primary-hover w-60;
   }
 
   .secondary-btn {
-    @apply flex items-center justify-center w-full gap-4 px-4 py-2 text-white shadow-xl bg-primary rounded-2xl hover:bg-primary-hover;
+    @apply flex items-center justify-center w-full gap-4 px-4 py-2 text-white transition-colors duration-300 ease-in-out shadow-xl bg-primary rounded-2xl hover:bg-primary-hover;
   }
 
   .tertiary-btn {
-    @apply p-4 capitalize border-2 rounded-2xl border-error text-error hover:bg-error hover:text-white;
+    @apply p-4 capitalize transition-colors duration-300 ease-in-out border-2 rounded-2xl border-error text-error hover:bg-error hover:text-white;
   }
 
   .card-btn {
@@ -71,5 +71,3 @@
     @apply w-full px-4 py-2 border-2 rounded-2xl border-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary min-w-[300px];
   }
 }
-
-/* TODO: smoother transition on buttons */

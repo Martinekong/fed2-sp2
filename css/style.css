@@ -687,6 +687,9 @@ main {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .primary-btn:hover {
@@ -712,6 +715,9 @@ main {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .secondary-btn:hover {
@@ -728,6 +734,9 @@ main {
   text-transform: capitalize;
   --tw-text-opacity: 1;
   color: rgb(182 86 87 / var(--tw-text-opacity, 1));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tertiary-btn:hover {
@@ -1272,10 +1281,6 @@ main {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.opacity-80 {
-  opacity: 0.8;
-}
-
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -1301,8 +1306,6 @@ main {
 .duration-300 {
   transition-duration: 300ms;
 }
-
-/* TODO: smoother transition on buttons */
 
 .after\:absolute::after {
   content: var(--tw-content);
@@ -1376,10 +1379,6 @@ main {
 }
 
 @media (min-width: 640px) {
-  .sm\:w-\[400px\] {
-    width: 400px;
-  }
-
   .sm\:w-full {
     width: 100%;
   }
