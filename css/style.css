@@ -791,8 +791,15 @@ main {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
   padding-top: 2rem;
   padding-bottom: 2rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .overlay {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .overlay button {
@@ -961,6 +968,10 @@ main {
 
 .w-52 {
   width: 13rem;
+}
+
+.w-\[80vw\] {
+  width: 80vw;
 }
 
 .w-fit {
@@ -1365,6 +1376,10 @@ main {
 }
 
 @media (min-width: 640px) {
+  .sm\:w-\[400px\] {
+    width: 400px;
+  }
+
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
