@@ -20,11 +20,11 @@
     <script type="module" src="./js/listings/viewAll.js"></script>
   </head>
   <body>
-    <header class="flex items-center justify-between p-8">
+    <header class="grid items-center grid-cols-2 p-8 md:grid-cols-3">
       <a
         href=""
         id="header-logo"
-        class="relative font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
+        class="relative w-fit font-heading font-bold text-4xl capitalize after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-[76%] after:bg-primary z-20"
         >bidly</a
       >
       <span
@@ -34,7 +34,7 @@
       >
         close
       </span>
-      <nav class="nav-menu" id="nav-menu">
+      <nav class="nav-menu md:justify-self-center" id="nav-menu">
         <a href="" id="listings-nav" class="nav-link nav-link-active"
           >listings</a
         >
@@ -42,7 +42,7 @@
         <a href="" id="profile-nav" class="nav-link">profile</a>
         <a href="" id="auth-nav" class="nav-link md:hidden"></a>
       </nav>
-      <div class="flex items-center gap-2 pt-2">
+      <div class="flex items-center gap-2 pt-2 justify-self-end">
         <p id="credits" class="text-lg"></p>
         <a href="" id="auth-btn">
           <span
