@@ -697,6 +697,17 @@ main {
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
 }
 
+.primary-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(22 36 63 / var(--tw-ring-opacity, 1));
+  --tw-ring-offset-width: 2px;
+}
+
 .secondary-btn {
   display: flex;
   width: 100%;
@@ -725,6 +736,17 @@ main {
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
 }
 
+.secondary-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(22 36 63 / var(--tw-ring-opacity, 1));
+  --tw-ring-offset-width: 2px;
+}
+
 .tertiary-btn {
   border-radius: 1rem;
   border-width: 2px;
@@ -744,6 +766,17 @@ main {
   background-color: rgb(182 86 87 / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.tertiary-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(182 86 87 / var(--tw-ring-opacity, 1));
+  --tw-ring-offset-width: 2px;
 }
 
 .card-btn {
@@ -771,6 +804,17 @@ main {
 .card-btn:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(34 53 89 / var(--tw-bg-opacity, 1));
+}
+
+.card-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(22 36 63 / var(--tw-ring-opacity, 1));
+  --tw-ring-offset-width: 2px;
 }
 
 .overlay-bg {
