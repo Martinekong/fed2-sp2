@@ -1,4 +1,5 @@
 import { createCountdown, findHighestBid } from './math.js';
+import { getBasePath } from './constants.js';
 
 export function createCard(href) {
   const card = document.createElement('a');
@@ -23,23 +24,21 @@ export function createCardImage(listing) {
     img.alt = listing.media[0].alt || listing.title;
 
     img.onerror = () => {
-      if (window.location.pathname.includes('profile')) {
-        img.src = './../assets/images/placeholder.jpg';
-        img.alt = 'Placeholder image';
-      } else {
-        img.src = './assets/images/placeholder.jpg';
-        img.alt = 'Placeholder image';
-      }
+      setPlaceholderImg(img);
     };
     return img;
   } else {
     const img = document.createElement('img');
     img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
-    img.src = './../assets/images/placeholder.jpg';
-    // need different paths here?
-    img.alt = 'Placeholder image';
+    setPlaceholderImg(img);
     return img;
   }
+}
+
+function setPlaceholderImg(img) {
+  const path = getBasePath();
+  img.src = `${path}/assets/images/placeholder.jpg`;
+  img.alt = 'Placeholder image';
 }
 
 export function createCardInfoDiv(listing) {
