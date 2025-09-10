@@ -8,7 +8,8 @@ import {
   removeStackedOverlays,
 } from './../utils/overlay.js';
 import { createButton } from './../utils/overlay.js';
-import { setRestrictionsOnDateSelection } from '../utils/math.js';
+import { setRestrictionsOnDateSelection } from './../utils/math.js';
+import { addValidationListener } from './../utils/validation.js';
 
 const api = new NoroffAPI();
 
@@ -20,9 +21,7 @@ function buildTitleSection() {
 
   const input = title.querySelector('input');
   input.required = true;
-
-  input.addEventListener('invalid', () => input.classList.add('border-error'));
-  input.addEventListener('input', () => input.classList.remove('border-error'));
+  addValidationListener(input);
 
   return title;
 }
@@ -78,9 +77,7 @@ function buildEndsAtSection() {
   const input = endsAt.querySelector('input');
   input.required = true;
   setRestrictionsOnDateSelection(input);
-
-  input.addEventListener('invalid', () => input.classList.add('border-error'));
-  input.addEventListener('input', () => input.classList.remove('border-error'));
+  addValidationListener(input);
 
   return endsAt;
 }

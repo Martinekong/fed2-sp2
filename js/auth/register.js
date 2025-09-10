@@ -1,8 +1,20 @@
-import { showSuccessMessage, showErrorMessage } from './../utils/validation.js';
 import NoroffAPI from './../api.js';
+import {
+  showSuccessMessage,
+  showErrorMessage,
+  addValidationListener,
+} from './../utils/validation.js';
+
+const api = new NoroffAPI();
 
 const registerForm = document.getElementById('register-form');
-const api = new NoroffAPI();
+const usernameInput = registerForm.querySelector('input[type="text"]');
+const emailInput = registerForm.querySelector('input[type="email"]');
+const passwordInput = registerForm.querySelector('input[type="password"]');
+
+addValidationListener(usernameInput);
+addValidationListener(emailInput);
+addValidationListener(passwordInput);
 
 async function registerUser(event) {
   event.preventDefault();

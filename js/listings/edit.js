@@ -11,6 +11,7 @@ import {
 } from './../utils/overlay.js';
 import { deleteListing } from './delete.js';
 import { toLocalDatetimeValue } from './../utils/math.js';
+import { addValidationListener } from './../utils/validation.js';
 
 const api = new NoroffAPI();
 
@@ -23,9 +24,7 @@ function buildTitleSection(listing) {
 
   const input = title.querySelector('input');
   input.required = true;
-
-  input.addEventListener('invalid', () => input.classList.add('border-error'));
-  input.addEventListener('input', () => input.classList.remove('border-error'));
+  addValidationListener(input);
 
   return title;
 }

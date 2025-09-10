@@ -22,3 +22,8 @@ export function showUserMessage(container, message) {
   p.textContent = message;
   container.append(message);
 }
+
+export function addValidationListener(input) {
+  input.addEventListener('invalid', () => input.classList.add('border-error'));
+  input.addEventListener('input', () => input.classList.remove('border-error'));
+}

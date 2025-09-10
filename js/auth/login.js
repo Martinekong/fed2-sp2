@@ -1,9 +1,19 @@
 import NoroffAPI from './../api.js';
 import { saveToken, saveUser } from '../utils/storage.js';
-import { showSuccessMessage, showErrorMessage } from './../utils/validation.js';
+import {
+  showSuccessMessage,
+  showErrorMessage,
+  addValidationListener,
+} from './../utils/validation.js';
+
+const api = new NoroffAPI();
 
 const loginForm = document.getElementById('login-form');
-const api = new NoroffAPI();
+const emailInput = loginForm.querySelector('input[type="email"]');
+const passwordInput = loginForm.querySelector('input[type="password"]');
+
+addValidationListener(emailInput);
+addValidationListener(passwordInput);
 
 async function loginUser(event) {
   event.preventDefault();
