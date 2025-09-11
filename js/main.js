@@ -30,12 +30,14 @@ function setLoggedOutUi() {
   authNav.textContent = 'login';
   authIcon.textContent = 'login';
   authIcon.setAttribute('aria-label', 'login');
+  authIcon.setAttribute('title', 'Login');
 }
 
 function setLoggedInUi(user) {
   authNav.textContent = 'logout';
   authIcon.textContent = 'logout';
   authIcon.setAttribute('aria-label', 'logout');
+  authIcon.setAttribute('title', 'Logout');
   authNav.addEventListener('click', logoutUser);
   authIcon.addEventListener('click', logoutUser);
   credits.textContent = `Credits: ${user.credits}`;
@@ -75,6 +77,10 @@ function setNavLinks() {
   authBtn.href = `${path}/auth/login/`;
 
   const user = getUser();
+
+  if (user) {
+    credits.href = `${path}/profile`;
+  }
 
   if (!user) {
     profile.href = `${path}/auth/login`;

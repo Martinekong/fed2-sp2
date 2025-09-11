@@ -16,6 +16,24 @@ addValidationListener(usernameInput);
 addValidationListener(emailInput);
 addValidationListener(passwordInput);
 
+usernameInput.addEventListener('input', () => {
+  const usernameHelper = document.getElementById('username-helper-text');
+  if (usernameInput.value.includes(' ')) {
+    usernameHelper.classList.remove('hidden');
+  } else {
+    usernameHelper.classList.add('hidden');
+  }
+});
+
+emailInput.addEventListener('input', () => {
+  const emailHelper = document.getElementById('email-helper-text');
+  if (emailInput.value.endsWith('@stud.noroff.no')) {
+    emailHelper.classList.add('hidden');
+  } else {
+    emailHelper.classList.remove('hidden');
+  }
+});
+
 async function registerUser(event) {
   event.preventDefault();
   const submitBtn = event.target.querySelector('button[type="submit"]');

@@ -1177,6 +1177,10 @@ main {
   border-width: 4px;
 }
 
+.border {
+  border-width: 1px;
+}
+
 .border-error {
   --tw-border-opacity: 1;
   border-color: rgb(182 86 87 / var(--tw-border-opacity, 1));
@@ -1209,6 +1213,11 @@ main {
 .bg-tertiary {
   --tw-bg-opacity: 1;
   background-color: rgb(255 207 152 / var(--tw-bg-opacity, 1));
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
 .object-cover {
