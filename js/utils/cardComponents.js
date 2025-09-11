@@ -9,7 +9,7 @@ export function createCard(href) {
     'rounded-2xl',
     'bg-secondary',
     'hover:bg-secondary-hover',
-    'shadow-lg',
+    'shadow-2xl',
     'group',
   );
   return card;
