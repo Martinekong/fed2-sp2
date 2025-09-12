@@ -53,7 +53,7 @@ export function assembleListingCard(listing) {
   const latestBid = createCardInfo(listing, 'latestBid');
   const endDate = createCardInfo(listing, 'endDate');
   info.append(latestBid, endDate);
-  const btn = createCardBtn('bid on it');
+  const btn = createCardBtn('Bid on it');
   card.append(image, info, btn);
   return card;
 }

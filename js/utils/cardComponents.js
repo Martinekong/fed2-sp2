@@ -1,6 +1,12 @@
 import { createCountdown, findHighestBid } from './math.js';
 import { getBasePath } from './constants.js';
 
+/**
+ * Creates a clickable card with a link.
+ *
+ * @param {string} href - The URL the card should link to.
+ * @returns {HTMLAnchorElement} - The card element.
+ */
 export function createCard(href) {
   const card = document.createElement('a');
   card.href = href;
@@ -15,6 +21,14 @@ export function createCard(href) {
   return card;
 }
 
+/**
+ * Creates an image element for a card.
+ *
+ * Adds a placeholder image if the listing has no media or if there is an error with the image url.
+ *
+ * @param {Object} listing - The listing object containing media and title.
+ * @returns {HTMLImageElement} - The image element.
+ */
 export function createCardImage(listing) {
   if (listing.media && listing.media.length > 0) {
     const img = document.createElement('img');
@@ -35,12 +49,25 @@ export function createCardImage(listing) {
   }
 }
 
+/**
+ * Sets a placeholder image to a image element.
+ *
+ * @param {HTMLImageElement} img - The image element to update.
+ */
 function setPlaceholderImg(img) {
   const path = getBasePath();
   img.src = `${path}/assets/images/placeholder.jpg`;
   img.alt = 'Placeholder image';
 }
 
+/**
+ * Creates a div container with the title of a listing.
+ *
+ * Can append card info like title, bids and end date.
+ *
+ * @param {Object} listing - The listing object.
+ * @returns {HTMLDivElement} - The info container element.
+ */
 export function createCardInfoDiv(listing) {
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('px-4', 'pt-4', 'pb-10', 'flex', 'flex-col', 'gap-4');
@@ -51,6 +78,13 @@ export function createCardInfoDiv(listing) {
   return infoDiv;
 }
 
+/**
+ * Creates a div with information of a listing (e.g. latest bid, end date, user bid).
+ *
+ * @param {Object} listing - The listing object.
+ * @param {"latestBid"|"endDate"|"yourBid"} name - The type of information to display.
+ * @returns {HTMLDivElement} - A container with label and value.
+ */
 export function createCardInfo(listing, name) {
   const container = document.createElement('div');
   container.classList.add('flex', 'gap-6');
@@ -81,6 +115,13 @@ export function createCardInfo(listing, name) {
   return container;
 }
 
+/**
+ * Creates a button for a card (e.g. "Bid on it").
+ * Includes an arrow icon with hover animation.
+ *
+ * @param {string} content - The button text.
+ * @returns {HTMLButtonElement} - The button element.
+ */
 export function createCardBtn(content) {
   const bidBtn = document.createElement('button');
   bidBtn.classList.add('card-btn');
