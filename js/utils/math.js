@@ -1,3 +1,10 @@
+/**
+ * Creates a countdown timer inside a element.
+ * Updates every second until the end date is reached.
+ *
+ * @param {string|Date} endDate - The end date/time as an ISO string or Date object.
+ * @param {HTMLElement} element - The element where the countdown text is displayed.
+ */
 export function createCountdown(endDate, element) {
   function updateCountdown() {
     const now = new Date();
@@ -22,6 +29,12 @@ export function createCountdown(endDate, element) {
   const interval = setInterval(updateCountdown, 1000);
 }
 
+/**
+ * Finds the highest bid from a listing.
+ *
+ * @param {{ bids: { amount: number }[] }} listing - A listing object containing an array of bids.
+ * @returns {number} The amount of the highest bid, or 0 if no bids exist.
+ */
 export function findHighestBid(listing) {
   const highestBid = listing.bids.reduce(
     (max, bid) => {
@@ -33,12 +46,27 @@ export function findHighestBid(listing) {
   return highestBid.amount;
 }
 
+/**
+ * Converts an ISO date string into a value for a `datetime-local` input field.
+ *
+ * Adjusts to the user’s local timezone.
+ *
+ * @param {string} isoString - An ISO formatted date string.
+ * @returns {string} The formatted local datetime string (YYYY-MM-DDTHH:MM).
+ */
 export function toLocalDatetimeValue(isoString) {
   const d = new Date(isoString);
   d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
   return d.toISOString().slice(0, 16);
 }
 
+/**
+ * Restricts a datetime input field so that:
+ * - The minimum date is the current date.
+ * - The maximum date is one year from the current date.
+ *
+ * @param {HTMLInputElement} input - The input element of type `datetime-local`.
+ */
 export function setRestrictionsOnDateSelection(input) {
   const now = new Date();
   now.setSeconds(0, 0);
