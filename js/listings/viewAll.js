@@ -11,6 +11,7 @@ import { showLoadingSpinner, hideLoadingSpinner } from './../utils/loaders.js';
 
 const api = new NoroffAPI();
 const listingGrid = document.getElementById('listing-grid');
+const loadMoreBtn = document.getElementById('load-more');
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search');
 const sortBtn = document.getElementById('sort-btn');
@@ -20,18 +21,28 @@ const errorContainer = document.getElementById('error-container');
 let allListings = [];
 let sortDirection = 'down';
 
+const PAGE_SIZE = 20;
+let visibleCount = PAGE_SIZE;
+let currentList = [];
+
 function clearGrid() {
   listingGrid.innerHTML = '';
 }
 
 function renderListings(listings) {
   clearGrid();
+
   if (!listings.length) {
     showUserMessage(listingGrid, 'No listings match your search.');
+    loadMoreBtn.classList.add('hidden');
     return;
   }
+
   const sorted = sortListings(listings, sortDirection);
-  sorted.forEach((listing) => listingGrid.append(assembleListingCard(listing)));
+  const sliced = sorted.slice(0, visibleCount);
+
+  sliced.forEach((listing) => listingGrid.append(assembleListingCard(listing)));
+  updateLoadMoreVisibility(sorted);
 }
 
 export function assembleListingCard(listing) {
@@ -51,7 +62,9 @@ async function loadAll() {
   showLoadingSpinner(listingGrid);
   try {
     allListings = await api.listings.viewAll();
-    renderListings(allListings);
+    visibleCount = PAGE_SIZE;
+    currentList = allListings;
+    renderListings(currentList);
   } catch (error) {
     clearGrid();
     showErrorMessage(errorContainer, 'Something went wrong. Please try again.');
@@ -63,9 +76,10 @@ async function loadAll() {
 
 async function renderSearch(query) {
   if (!query) {
-    renderListings(allListings);
+    visibleCount = PAGE_SIZE;
+    currentList = allListings;
+    renderListings(currentList);
     errorContainer.classList.add('hidden');
-
     return;
   }
 
@@ -73,10 +87,15 @@ async function renderSearch(query) {
 
   try {
     const results = await api.listings.search(query);
+
     const ids = new Set(results.map((result) => result.id));
     const filtered = allListings.filter((listing) => ids.has(listing.id));
+
+    visibleCount = PAGE_SIZE;
+    currentList = filtered;
+
     errorContainer.classList.add('hidden');
-    renderListings(filtered);
+    renderListings(currentList);
   } catch (error) {
     clearGrid();
     showErrorMessage(errorContainer, 'Search failed. Please try again.');
@@ -112,13 +131,20 @@ sortBtn.addEventListener('click', () => {
     sortDirection = 'down';
     sortArrow.textContent = 'arrow_downward';
   }
+  renderListings(currentList);
+});
 
-  const query = searchInput.value.trim();
-  if (query) {
-    renderSearch(query);
+function updateLoadMoreVisibility(list) {
+  if (visibleCount >= list.length) {
+    loadMoreBtn.classList.add('hidden');
   } else {
-    renderListings(allListings);
+    loadMoreBtn.classList.remove('hidden');
   }
+}
+
+loadMoreBtn.addEventListener('click', () => {
+  visibleCount += PAGE_SIZE;
+  renderListings(currentList);
 });
 
 loadAll();
