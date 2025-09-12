@@ -1,3 +1,15 @@
+/**
+ * Shows a dark background and an overlay with a heading and content.
+ *
+ * Clicking the background or the close icon will close the overlay.
+ *
+ * Disables body scrolling under the overlay.
+ *
+ * @param {string} message - Heading text for the overlay.
+ * @param {HTMLElement} content - The content to render inside the overlay (e.g. a form or buttons).
+ * @param {boolean} [shouldReload=false] - If true, reloads the page after the overlay closes.
+ * @returns {void}
+ */
 export function displayOverlay(message, content, shouldReload = false) {
   const overlayBg = document.createElement('div');
   overlayBg.classList.add('overlay-bg');
@@ -37,6 +49,12 @@ export function displayOverlay(message, content, shouldReload = false) {
   document.body.classList.add('overflow-hidden');
 }
 
+/**
+ * Creates a form element with a flex columns layout and appends the provided input divs.
+ *
+ * @param {HTMLElement[]} inputDivs - A list of input div elements.
+ * @returns {HTMLFormElement} The created form element.
+ */
 export function createOverlayForm(inputDivs) {
   const form = document.createElement('form');
   form.classList.add('flex', 'flex-col', 'w-full', 'gap-8');
@@ -45,6 +63,22 @@ export function createOverlayForm(inputDivs) {
   return form;
 }
 
+/**
+ * @typedef {Object} InputOptions
+ * @property {string|null} [labelText=null] - Custom label text. Defaults to a capitalized version of `name`.
+ * @property {'text'|'email'|'url'|'number'|'datetime-local'|'password'} [type='text'] - Default to `text`. Ignored if `textarea` is true.
+ * @property {string} [value=''] - Initial value for the field.
+ * @property {string} [placeholder=''] - Placeholder text.
+ * @property {boolean} [textarea=false] - If true, renders a `<textarea>` instead of an `<input>`.
+ */
+
+/**
+ * Creates a labeled input div containing a label and an input/textarea.
+ *
+ * @param {string} name - Field name; used for id/name and default label.
+ * @param {InputOptions} [options={}] - Options for the input field.
+ * @returns {HTMLDivElement} A div containing the label and the field.
+ */
 export function createInputDiv(
   name,
   {
@@ -81,6 +115,11 @@ export function createInputDiv(
   return div;
 }
 
+/**
+ * Creates a “Add another image” button with a right-arrow icon.
+ *
+ * @returns {HTMLButtonElement} The button element.
+ */
 export function createAddImageBtn() {
   const addImageBtn = document.createElement('button');
   addImageBtn.type = 'button';
@@ -101,6 +140,12 @@ export function createAddImageBtn() {
   return addImageBtn;
 }
 
+/**
+ * Creates a primary submit button with provided text.
+ *
+ * @param {string} content - Button text.
+ * @returns {HTMLButtonElement} The submit button element.
+ */
 export function createSubmitButton(content) {
   const submitBtn = document.createElement('button');
   submitBtn.type = 'submit';
@@ -109,6 +154,12 @@ export function createSubmitButton(content) {
   return submitBtn;
 }
 
+/**
+ * Creates a “OK” button that closes the nearest overlay and can reload the page.
+ *
+ * @param {boolean} [shouldReload=false] - If true, reloads after click.
+ * @returns {HTMLButtonElement} The button element.
+ */
 export function createButton(shouldReload = false) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -130,6 +181,12 @@ export function createButton(shouldReload = false) {
   return button;
 }
 
+/**
+ * Creates an error-styled button (not submit button).
+ *
+ * @param {string} content - Button label.
+ * @returns {HTMLButtonElement} The button element.
+ */
 export function createDeleteButton(content) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -138,6 +195,10 @@ export function createDeleteButton(content) {
   return button;
 }
 
+/**
+ * Closes and removes all current overlays and their backgrounds.
+ * Re-enables body scrolling under the overlays.
+ */
 export function removeStackedOverlays() {
   document
     .querySelectorAll('.overlay, .overlay-bg')
