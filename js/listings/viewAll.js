@@ -59,6 +59,7 @@ export function assembleListingCard(listing) {
 }
 
 async function loadAll() {
+  loadMoreBtn.classList.add('hidden');
   showLoadingSpinner(listingGrid);
   try {
     allListings = await api.listings.viewAll();
@@ -71,6 +72,7 @@ async function loadAll() {
     console.error(error.message);
   } finally {
     hideLoadingSpinner(listingGrid);
+    loadMoreBtn.classList.remove('hidden');
   }
 }
 
