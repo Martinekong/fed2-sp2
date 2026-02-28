@@ -16,22 +16,18 @@ addValidationListener(usernameInput);
 addValidationListener(emailInput);
 addValidationListener(passwordInput);
 
+// Helper-text logic (separate from validation)
 usernameInput.addEventListener('input', () => {
   const usernameHelper = document.getElementById('username-helper-text');
-  if (usernameInput.value.includes(' ')) {
-    usernameHelper.classList.remove('hidden');
-  } else {
-    usernameHelper.classList.add('hidden');
-  }
+  usernameHelper.classList.toggle('hidden', !usernameInput.value.includes(' '));
 });
 
 emailInput.addEventListener('input', () => {
   const emailHelper = document.getElementById('email-helper-text');
-  if (emailInput.value.endsWith('@stud.noroff.no')) {
-    emailHelper.classList.add('hidden');
-  } else {
-    emailHelper.classList.remove('hidden');
-  }
+  emailHelper.classList.toggle(
+    'hidden',
+    emailInput.value.endsWith('@stud.noroff.no'),
+  );
 });
 
 async function registerUser(event) {

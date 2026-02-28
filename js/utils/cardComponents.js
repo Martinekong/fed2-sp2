@@ -30,23 +30,21 @@ export function createCard(href) {
  * @returns {HTMLImageElement} - The image element.
  */
 export function createCardImage(listing) {
-  if (listing.media && listing.media.length > 0) {
-    const img = document.createElement('img');
-    img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
+  const img = document.createElement('img');
+  img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
 
+  if (listing.media && listing.media.length > 0) {
     img.src = listing.media[0].url;
     img.alt = listing.media[0].alt || listing.title;
 
     img.onerror = () => {
       setPlaceholderImg(img);
     };
-    return img;
   } else {
-    const img = document.createElement('img');
-    img.classList.add('h-52', 'w-full', 'object-cover', 'rounded-t-2xl');
     setPlaceholderImg(img);
-    return img;
   }
+
+  return img;
 }
 
 /**

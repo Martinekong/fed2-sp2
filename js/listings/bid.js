@@ -13,27 +13,27 @@ const listingId = params.get('id');
 async function submitBid(event) {
   event.preventDefault();
   const submitBtn = bidForm.querySelector('button[type="submit"]');
+  const errorContainer = document.getElementById('bid-error-container');
+
+  const amount = Number.parseInt(bidInput.value, 10);
+
+  if (!amount || amount <= 0) {
+    showErrorMessage(
+      errorContainer,
+      'You need to fill in a valid amount.',
+      true,
+    );
+    return;
+  }
 
   try {
     submitBtn.disabled = true;
-
-    const amount = parseInt(bidInput.value, 10);
-
-    if (!amount || amount <= 0) {
-      const errorContainer = document.getElementById('bid-error-container');
-      showErrorMessage(
-        errorContainer,
-        'You need to fill in a valid amount.',
-        true,
-      );
-      return;
-    }
+    submitBtn.textContent = 'Placing bid...';
 
     await api.listings.bid(amount, listingId);
     const button = createButton(true);
     displayOverlay('Your bid has been successfully placed!', button, true);
   } catch (error) {
-    const errorContainer = document.getElementById('bid-error-container');
     showErrorMessage(errorContainer, `${error.message}.`, true);
   } finally {
     submitBtn.disabled = false;

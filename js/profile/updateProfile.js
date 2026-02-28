@@ -11,74 +11,103 @@ import {
 const api = new NoroffAPI();
 
 function buildProfileForm(user) {
-  const bioInput = createInputDiv('bio', {
-    value: user.bio || '',
-    placeholder: 'Tell people about yourself',
-  });
+  const fields = [
+    {
+      name: 'bio',
+      options: {
+        value: user.bio || '',
+        placeholder: 'Tell people about yourself',
+      },
+    },
+    {
+      name: 'avatarUrl',
+      options: {
+        labelText: 'Avatar URL',
+        type: 'url',
+        value: user.avatar?.url || '',
+        placeholder: 'Enter valid URL for avatar image',
+      },
+    },
+    {
+      name: 'avatarAlt',
+      options: {
+        labelText: 'Avatar Alt',
+        value: user.avatar?.alt || '',
+        placeholder: 'Describe your avatar',
+      },
+    },
+    {
+      name: 'bannerUrl',
+      options: {
+        labelText: 'Banner URL',
+        type: 'url',
+        value: user.banner?.url || '',
+        placeholder: 'Enter valid URL for banner image',
+      },
+    },
+    {
+      name: 'bannerAlt',
+      options: {
+        labelText: 'Banner Alt',
+        value: user.banner?.alt || '',
+        placeholder: 'Describe your banner',
+      },
+    },
+  ];
 
-  const avatarUrlInput = createInputDiv('avatarUrl', {
-    labelText: 'Avatar URL',
-    type: 'url',
-    value: user.avatar?.url || '',
-    placeholder: 'Enter valid URL for avatar image',
-  });
-
-  const avatarAltInput = createInputDiv('avatarAlt', {
-    labelText: 'Avatar Alt',
-    value: user.avatar?.alt || '',
-    placeholder: 'Describe your avatar',
-  });
-
-  const bannerUrlInput = createInputDiv('bannerUrl', {
-    labelText: 'Banner URL',
-    type: 'url',
-    value: user.banner?.url || '',
-    placeholder: 'Enter valid URL for banner image',
-  });
-
-  const bannerAltInput = createInputDiv('bannerAlt', {
-    labelText: 'Banner Alt',
-    value: user.banner?.alt || '',
-    placeholder: 'Describe your banner',
-  });
-
+  const inputs = fields.map((f) => createInputDiv(f.name, f.options));
   const submitBtn = createSubmitButton('save changes');
 
-  const form = createOverlayForm([
-    bioInput,
-    avatarUrlInput,
-    avatarAltInput,
-    bannerUrlInput,
-    bannerAltInput,
-    submitBtn,
-  ]);
+  return createOverlayForm([...inputs, submitBtn]);
+}
 
-  return form;
+function cleanMedia(url, alt) {
+  const cleanUrl = (url || '').trim();
+  const cleanAlt = (alt || '').trim();
+
+  if (!cleanUrl) return undefined;
+
+  return {
+    url: cleanUrl,
+    alt: cleanAlt || undefined,
+  };
 }
 
 function getUpdates(form) {
   const formData = new FormData(form);
-  return {
-    bio: (formData.get('bio') || '').trim(),
-    avatar: {
-      url: (formData.get('avatarUrl') || '').trim(),
-      alt: (formData.get('avatarAlt') || '').trim(),
-    },
-    banner: {
-      url: (formData.get('bannerUrl') || '').trim(),
-      alt: (formData.get('bannerAlt') || '').trim(),
-    },
-  };
+
+  const bio = (formData.get('bio') || '').trim();
+  const avatar = cleanMedia(
+    formData.get('avatarUrl'),
+    formData.get('avatarAlt'),
+  );
+  const banner = cleanMedia(
+    formData.get('bannerUrl'),
+    formData.get('bannerAlt'),
+  );
+
+  const updates = { bio };
+
+  if (avatar) updates.avatar = avatar;
+  if (banner) updates.banner = banner;
+
+  return updates;
 }
 
 function onProfileSubmit(form) {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const submitBtn = form.querySelector('button[type="submit"]');
+    if (!submitBtn) {
+      const button = createButton(false);
+      displayOverlay('Something went wrong: missing submit button', button);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'updating...';
 
     try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'updating...';
       const updates = getUpdates(form);
       await api.profile.update(updates);
 
@@ -99,6 +128,8 @@ function onProfileSubmit(form) {
 export async function showEditProfileOverlay() {
   try {
     const user = await api.profile.view();
+    if (!user) throw new Error('No user data returned');
+
     const form = buildProfileForm(user);
     onProfileSubmit(form);
     displayOverlay('Edit profile', form);
